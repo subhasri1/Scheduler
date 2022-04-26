@@ -1,0 +1,86 @@
+algorithum
+Step1:
+Statrt the program 
+Step 2:
+Get the number of process 
+step 3:
+get the burn time of each process 
+step 4:
+get the priority of each process 
+step 5:
+sort the proces based on the priority
+step 6:
+calculation of average waiting time and turn around time
+time:
+	AVG_WT=tot_WT/num
+	AVG_TAT=tot_TAT/num
+Step 7:
+Dispaly the result
+step 8:
+Stop the program
+
+Program
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    float sumwt=0.0,sumtat=0.0;
+    cout<<"Enter the number of process: "<<endl;
+    cin>>n;
+    int bt[n],p[n],compt[100],wt[n],tat[n],temp1,temp2;
+    cout<<"Enter the burn  time in the process: "<<endl;
+    for(int i=0;i<n;i++)
+    {
+        cin>>bt[i];
+    }
+    cout<<"Enter the priority in the process: "<<endl;
+    for(int i=0;i<n;i++)
+    {
+        cin>>p[i];
+    }
+//sorting base on priority
+for(int i=0;i<n;i++)
+{
+    for(int j=i+1;j<n;j++)
+    {
+        if(p[i]>p[j])
+        {
+            temp1=bt[i];
+            bt[i]=bt[j];
+            bt[j]=temp1;
+            temp2=p[i];
+            p[i]=p[j];
+            p[j]=temp2;
+        }
+    }
+}
+compt[0]=bt[0];
+wt[0]=0;
+for(int i=1;i<n;i++)
+compt[i]=bt[0]+compt[i-1];
+for(int i=0;i<n;i++)
+{
+    tat[i]=compt[i];
+    wt[i]=tat[i]-bt[i];
+    sumtat+=tat[i];
+    sumwt+=wt[i];
+}
+
+cout<<"Total waiting time: "<<sumwt<<endl;
+cout<<"Average waiting time: "<<sumwt/n<<endl;
+cout<<"Total turm around time : "<<sumtat<<endl;
+cout<<"Average turn around time: "<<sumtat/n<<endl;
+    return 0;
+}
+
