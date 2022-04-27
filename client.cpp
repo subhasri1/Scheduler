@@ -32,12 +32,11 @@ int main(){
 		exit(1);
 }	
 	while(p){
-	cout<<"1 for fcfs process, 2 for priority,3 for round robin and 0 for exit";
+	cout<<"1 for fcfs process, 2 for priority,3 for round robin,4 for shortest job first and 0 for exit";
 	int k,pid,a,b,pr,n=0,tq;
 	cin>>k;
 	details d[n];
-	details z[n];
-	details y[n];
+	
 	switch(k){
 	case 0: p=0;
 	
@@ -76,8 +75,8 @@ int main(){
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,bt,at,priority"<<endl;
 			cin>>pid>>b>>a>>pr;
-			z[i].set(pid,a,b,2,pr,0);
-			write(serv_fd,&z[i],sizeof(z[i]));
+			d[i].set(pid,a,b,2,pr,0);
+			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
 		struct process q[10];
@@ -100,8 +99,8 @@ int main(){
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,bt,at,time quantum"<<endl;
 			cin>>pid>>b>>a>>tq;
-			y[i].set(pid,a,b,3,0,tq);
-			write(serv_fd,&y[i],sizeof(y[i]));
+			d[i].set(pid,a,b,3,0,tq);
+			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
 		struct process r[10];
@@ -113,6 +112,30 @@ int main(){
 		for(int i=0;i<n;i++)
 		{
     		cout<<" "<<r[i].pid<<"\t"<<r[i].TimeQuantum<<"\t  "<<r[i].BurstTime<<"\t   "<<r[i].WaitingTime<<"\t    "<<r[i].TurnAroundTime<<endl;
+		}
+		
+		break;
+		
+		case 4: cout<<"enter no of process"<<endl;
+		cin>>n;
+		write(serv_fd,&n,sizeof(n));
+		
+		for(int i=0;i<n;i++){
+			cout<<"enter process pid,bt,at"<<endl;
+			cin>>pid>>b>>a>>tq;
+			d[i].set(pid,a,b,3,0,0);
+			write(serv_fd,&d[i],sizeof(d[i]));
+	
+		}
+		struct process s[10];
+		for(int i=0;i<n;i++){
+		read(serv_fd,&s[i],sizeof(s[i]));
+		cout<<s[i].pid<<endl;
+		}
+		cout<<" pid   TimeQuantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		for(int i=0;i<n;i++)
+		{
+    		cout<<" "<<s[i].pid<<"\t"<<s[i].TimeQuantum<<"\t  "<<s[i].BurstTime<<"\t   "<<s[i].WaitingTime<<"\t    "<<s[i].TurnAroundTime<<endl;
 		}
 		
 		break;

@@ -121,13 +121,25 @@ cout<<q[i].pid<<endl;
 //cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
-}/*
-fstream file1;
-file1.open("dt.txt",ios::out|ios::trunc);
-file1.close();*/
 }
 
 }
+
+else if(d[0].ProcessType==4){
+
+struct process *p=sjf();
+struct process q[10];
+
+for(int i=0;i<n;i++){
+q[i]=*p;
+cout<<q[i].pid<<endl;
+//cout<<i<<endl;
+write(client_fd,&q[i],sizeof(q[i]));
+p++;
+}
+
+}
+
 else{
 break;
 } 

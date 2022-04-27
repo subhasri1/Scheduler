@@ -1,6 +1,6 @@
 
-serv: server.cpp fcfs.o rr.o priority.o
-	g++ -o serv server.cpp fcfs.o rr.o priority.o
+serv: server.cpp fcfs.o rr.o priority.o sjf.o
+	g++ -o serv server.cpp fcfs.o rr.o priority.o sjf.o
 
 fcfs.o: fcfs.cpp class.h
 	g++ -c fcfs.cpp
@@ -10,3 +10,6 @@ rr.o: rr.cpp class.h
 	
 priority.o: priority.cpp class.h
 	     g++ -c priority.cpp
+	     
+sjf.o: sjf.cpp class.h
+	g++ -c sjf.cpp

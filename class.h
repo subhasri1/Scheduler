@@ -25,6 +25,7 @@ int pid,processtype,BurstTime,ArrivalTime,Priority,TimeQuantum,WaitingTime,TurnA
 struct process* fcfs();
 struct process* priority();
 struct process* rr();
+struct process* sjf();
 
 
 

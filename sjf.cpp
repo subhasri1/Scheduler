@@ -13,8 +13,8 @@ using namespace std;
 #include <iomanip>
 struct process* sjf()
 {
-//int j,BrustTime[20],WaitingTime[20],TurnArroundTime[20],avwt=0,avtArrivalTime=0,i,j,arrival[20],ComplitionTime[20],ResponseTime[20];
-string st,BrustTime,pid,ArrivalTime;
+//int j,BurstTime[20],WaitingTime[20],TurnArroundTime[20],avwt=0,avtArrivalTime=0,i,j,arrival[20],ComplitionTime[20],ResponseTime[20];
+string st,BurstTime,pid,ArrivalTime;
 int flag=0,k,j=0;
 fstream file1;
 file1.open("dt.txt",ios::in);
@@ -47,34 +47,33 @@ ArrivalTime+=st[i];
 }
 else if(flag==3){
 
-BrustTime+=st[i];
+BurstTime+=st[i];
 
 }
 }
 //cout<<"pid:"<<pid;
 p[j].pid=stoi(pid);
 p[j].ArrivalTime=stoi(ArrivalTime);
-p[j].BrustTime=stoi(BrustTime);
+p[j].BurstTime=stoi(BurstTime);
 pid.clear();
 ArrivalTime.clear();
-BrustTime.clear();
+BurstTime.clear();
 j++;
 flag=0;
 }
 file1.close();
-
+/*
 struct process_struct
 {
   int Pid;
   int ArrivalTime;
-  int BrustTime;
+  int BurstTime;
   int ComplitionTime,WaitingTime,TurnArroundTime,ResponseTime,StartTime;
-}p[100];
+}p[100];*/
 
-int main()
-{
+
     
-    int j;
+
     bool is_completed[100]={false},is_first_process=true;
     int current_time = 0;
     int completed = 0;;
@@ -90,13 +89,13 @@ int main()
     {
         cout<<"\nEnter Process " <<i<< " Arrival Time: ";
         //cin >> p[i].ArrivalTime;
-        p[i].Pid=i;
+        p[i].pid=i;
     }
     
     for(int i=0;i<j;i++)
     {
         cout<<"\nEnter Process " <<i<< " Burst Time: ";
-        //cin >> p[i].BrustTime;
+        //cin >> p[i].BurstTime;
     }
     
     
@@ -107,13 +106,13 @@ int main()
         int minimum = INT_MAX;
         for(int i = 0; i < j; i++) {
             if(p[i].ArrivalTime <= current_time && is_completed[i] == false) {
-                if(p[i].BrustTime < minimum) {
-                    minimum = p[i].BrustTime;
+                if(p[i].BurstTime < minimum) {
+                    minimum = p[i].BurstTime;
                     min_index = i;
                 }
-                if(p[i].BrustTime== minimum) {
+                if(p[i].BurstTime== minimum) {
                     if(p[i].ArrivalTime < p[min_index].ArrivalTime) {
-                        minimum= p[i].BrustTime;
+                        minimum= p[i].BurstTime;
                         min_index = i;
                     }
                 }
@@ -127,9 +126,9 @@ int main()
         else
         {
         p[min_index].StartTime = current_time;
-        p[min_index].ComplitionTime = p[min_index].StartTime + p[min_index].BrustTime;
+        p[min_index].ComplitionTime = p[min_index].StartTime + p[min_index].BurstTime;
         p[min_index].TurnArroundTime = p[min_index].ComplitionTime - p[min_index].ArrivalTime;
-        p[min_index].WaitingTime = p[min_index].TurnArroundTime - p[min_index].BrustTime;
+        p[min_index].WaitingTime = p[min_index].TurnArroundTime - p[min_index].BurstTime;
         p[min_index].ResponseTime = p[min_index].WaitingTime;
         // p[min_index].ResponseTime = p[min_index].StartTime - p[min_index].ArrivalTime;
                 
@@ -159,7 +158,7 @@ int main()
      //Output
     cout<<"\nProcess No.\TurnArroundTime\tCPU Burst Time\tCT\tTArrivalTime\tWT\tRT\j";
     for(int i=0;i<j;i++)
-     cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BrustTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnArroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
+     cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnArroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
     cout<<endl;  
     
     cpu_utilizArrivalTimeion = (floArrivalTime)(length_cycle - total_idle_time)/ length_cycle;
@@ -169,5 +168,5 @@ int main()
     cout<<"\nAverage Response Time= "<<(floArrivalTime)sum_rt/j;    
     cout<<"\nThroughput= "<<j/(floArrivalTime)length_cycle;
     cout<<"\nCPU UtilizArrivalTimeion(Percentage)= " << cpu_utilizArrivalTimeion*100;
-    return 0;
+    return p;
 }
