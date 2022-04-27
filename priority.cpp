@@ -23,12 +23,18 @@ int pid,processtype,BrustTime,ArrivalTime,Priority,TimeQuantum,WaitingTime,TurnA
 
     struct process p[100];
      
-    int bt[n],pr1[n],compt[100],wt[n],tat[n],temp1,temp2;
+    int bt[n],pr1[n],compt[100],wt[n],tat[n],temp1,temp2,temp3,pid1[n];
+    cout<<"Enter pid for the process: "<<endl;
+    for(int i=0;i<n;i++)
+    {
+        cin>>pid1[i];
+        
+    }
     cout<<"Enter the burn  time in the process: "<<endl;
     for(int i=0;i<n;i++)
     {
         cin>>bt[i];
-        p[i].BrustTime=bt[i];
+        
     }
     cout<<"Enter the priority in the process: "<<endl;
     for(int i=0;i<n;i++)
@@ -49,6 +55,10 @@ for(int i=0;i<n;i++)
             temp2=pr1[i];
             pr1[i]=pr1[j];
             pr1[j]=temp2;
+            temp3=pid1[i];
+            pid1[i]=pid1[j];
+            pid1[j]=temp3;
+            
         }
     }
 }
@@ -63,7 +73,9 @@ p[i].ComplitionTime=compt[i];
 for(int i=0;i<n;i++)
 {
     p[i].Priority=pr1[i];
+    p[i].BrustTime=bt[i];
     p[i].ComplitionTime=compt[i];
+    p[i].pid=pid1[i];
 }
 for(int i=0;i<n;i++)
 {
@@ -74,10 +86,10 @@ for(int i=0;i<n;i++)
     sumtat+=tat[i];
     sumwt+=wt[i];
 }
-cout<<"Priority   Brust Time    Waiting Time    Turn Around Time "<<endl;
+cout<<" pid  Priority   Brust Time    Waiting Time    Turn Around Time "<<endl;
 for(int i=0;i<n;i++)
 {
-    cout<<p[i].Priority<<"\t   "<<p[i].BrustTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
+    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t   "<<p[i].BrustTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
 }
 /*p[4].awt1=sumwt/n;
 p[4].atat1=sumtat/n;
