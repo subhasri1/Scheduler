@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include<fstream>
 #include<sys/types.h>
@@ -16,7 +15,7 @@ using namespace std;
 struct process* priority()
 {
 
-string st,BrustTime,pid,ArrivalTime,Priority;
+string st,BurstTime,pid,ArrivalTime,Priority;
 int flag=0,k,j=0;
 fstream file1;
 file1.open("dt.txt",ios::in);
@@ -49,10 +48,10 @@ ArrivalTime+=st[i];
 }
 else if(flag==3){
 
-BrustTime+=st[i];
+BurstTime+=st[i];
 
 }
-else if(flag==5){
+else if(flag==4){
 
 Priority+=st[i];
 
@@ -61,11 +60,11 @@ Priority+=st[i];
 //cout<<"pid:"<<pid;
 p[j].pid=stoi(pid);
 p[j].ArrivalTime=stoi(ArrivalTime);
-p[j].BrustTime=stoi(BrustTime);
+p[j].BurstTime=stoi(BurstTime);
 p[j].Priority=stoi(Priority);
 pid.clear();
 ArrivalTime.clear();
-BrustTime.clear();
+BurstTime.clear();
 Priority.clear();
 j++;
 flag=0;
@@ -83,9 +82,9 @@ for(int m=0;m<j;m++)
     {
         if(p[m].Priority>p[n].Priority)
         {
-            temp1=p[m].BrustTime;
-            p[m].BrustTime=p[n].BrustTime;
-            p[n].BrustTime=temp1;
+            temp1=p[m].BurstTime;
+            p[m].BurstTime=p[n].BurstTime;
+            p[n].BurstTime=temp1;
             temp2=p[m].Priority;
             p[m].Priority=p[n].Priority;
             p[n].Priority=temp2;
@@ -97,30 +96,30 @@ for(int m=0;m<j;m++)
     }
 }
 
-p[0].ComplitionTime=p[0].BrustTime;
+p[0].ComplitionTime=p[0].BurstTime;
 p[0].WaitingTime=0;
 for(int i=1;i<j;i++)
 {
-p[i].ComplitionTime=p[0].BrustTime+p[i-1].ComplitionTime;
+p[i].ComplitionTime=p[0].BurstTime+p[i-1].ComplitionTime;
 }
 for(int i=0;i<j;i++)
 {
     p[i].Priority;
-    p[i].BrustTime;
+    p[i].BurstTime;
     p[i].ComplitionTime;
     p[i].pid;
 }
 for(int i=0;i<j;i++)
 {
     p[i].TurnAroundTime=p[i].ComplitionTime;
-    p[i].WaitingTime=p[i].TurnAroundTime-p[i].BrustTime;
+    p[i].WaitingTime=p[i].TurnAroundTime-p[i].BurstTime;
     sumtat+=p[i].TurnAroundTime;
     sumwt+=p[i].WaitingTime;
 }
-cout<<" pid  Priority   Brust Time    Waiting Time    Turn Around Time "<<endl;
+cout<<" pid  Priority   Burst Time    Waiting Time    Turn Around Time "<<endl;
 for(int i=0;i<j;i++)
 {
-    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t   "<<p[i].BrustTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
+    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t   "<<p[i].BurstTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
 }
 /*p[4].awt1=sumwt/n;
 p[4].atat1=sumtat/n;
