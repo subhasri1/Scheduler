@@ -1,86 +1,124 @@
 
 #include <iostream>
-
+#include<fstream>
+#include<sys/types.h>
 using namespace std;
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<unistd.h>
+#include<arpa/inet.h>
+#include<stdlib.h>
+#include<errno.h>
+#include "class.h"
 
-int main()
+
+
+struct process* priority()
 {
-    int n;
-    float sumwt=0.0,sumtat=0.0;
-    cout<<"Enter the number of process: "<<endl;
-    cin>>n;
-    
-    struct process{
-int pid,processtype,BrustTime,ArrivalTime,Priority,TimeQuantum,WaitingTime,TurnAroundTime,ComplitionTime;
-};
 
-    struct process p[100];
-     
-    int bt[n],pr1[n],compt[100],wt[n],tat[n],temp1,temp2,temp3,pid1[n];
-    cout<<"Enter pid for the process: "<<endl;
-    for(int i=0;i<n;i++)
-    {
-        cin>>pid1[i];
-        
-    }
-    cout<<"Enter the burn  time in the process: "<<endl;
-    for(int i=0;i<n;i++)
-    {
-        cin>>bt[i];
-        
-    }
-    cout<<"Enter the priority in the process: "<<endl;
-    for(int i=0;i<n;i++)
-    {
-        cin>>pr1[i];
-       
-    }
+string st,BrustTime,pid,ArrivalTime,Priority;
+int flag=0,k,j=0;
+fstream file1;
+file1.open("dt.txt",ios::in);
+//struct process* p = (process*)calloc(10,sizeof(struct process));
+//struct process p[10];
+struct process *p=new struct process[10];
+//struct process *p;
+while(getline(file1,st)){
+//cout<<st<<endl;
+for(int i=0;i<st.size();i++)
+{
+
+
+if(st[i]==','){
+
+flag++;
+
+}
+
+
+else if(flag==1){
+
+pid+=st[i];
+
+}
+else if(flag==2){
+
+ArrivalTime+=st[i];
+
+}
+else if(flag==3){
+
+BrustTime+=st[i];
+
+}
+else if(flag==5){
+
+Priority+=st[i];
+
+}
+}
+//cout<<"pid:"<<pid;
+p[j].pid=stoi(pid);
+p[j].ArrivalTime=stoi(ArrivalTime);
+p[j].BrustTime=stoi(BrustTime);
+p[j].Priority=stoi(Priority);
+pid.clear();
+ArrivalTime.clear();
+BrustTime.clear();
+Priority.clear();
+j++;
+flag=0;
+}
+//cout<<p[0].pid<<"mila"<<endl;
+file1.close();
+
+    int temp1,temp2,temp3;
+    float sumtat=0.0,sumwt=0.0;
+
 //sorting base on priority
-for(int i=0;i<n;i++)
+for(int m=0;m<j;m++)
 {
-    for(int j=i+1;j<n;j++)
+    for(int n=m+1;n<j;n++)
     {
-        if(pr1[i]>pr1[j])
+        if(p[m].Priority>p[n].Priority)
         {
-            temp1=bt[i];
-            bt[i]=bt[j];
-            bt[j]=temp1;
-            temp2=pr1[i];
-            pr1[i]=pr1[j];
-            pr1[j]=temp2;
-            temp3=pid1[i];
-            pid1[i]=pid1[j];
-            pid1[j]=temp3;
+            temp1=p[m].BrustTime;
+            p[m].BrustTime=p[n].BrustTime;
+            p[n].BrustTime=temp1;
+            temp2=p[m].Priority;
+            p[m].Priority=p[n].Priority;
+            p[n].Priority=temp2;
+            temp3=p[m].pid;
+            p[m].pid=p[n].pid;
+            p[n].pid=temp3;
             
         }
     }
 }
 
-compt[0]=bt[0];
-wt[0]=0;
-for(int i=1;i<n;i++)
+p[0].ComplitionTime=p[0].BrustTime;
+p[0].WaitingTime=0;
+for(int i=1;i<j;i++)
 {
-compt[i]=bt[0]+compt[i-1];
-p[i].ComplitionTime=compt[i];
+p[i].ComplitionTime=p[0].BrustTime+p[i-1].ComplitionTime;
 }
-for(int i=0;i<n;i++)
+for(int i=0;i<j;i++)
 {
-    p[i].Priority=pr1[i];
-    p[i].BrustTime=bt[i];
-    p[i].ComplitionTime=compt[i];
-    p[i].pid=pid1[i];
+    p[i].Priority;
+    p[i].BrustTime;
+    p[i].ComplitionTime;
+    p[i].pid;
 }
-for(int i=0;i<n;i++)
+for(int i=0;i<j;i++)
 {
-    tat[i]=compt[i];
-    p[i].TurnAroundTime=tat[i];
-    wt[i]=tat[i]-bt[i];
-    p[i].WaitingTime=wt[i];
-    sumtat+=tat[i];
-    sumwt+=wt[i];
+    p[i].TurnAroundTime=p[i].ComplitionTime;
+    p[i].WaitingTime=p[i].TurnAroundTime-p[i].BrustTime;
+    sumtat+=p[i].TurnAroundTime;
+    sumwt+=p[i].WaitingTime;
 }
 cout<<" pid  Priority   Brust Time    Waiting Time    Turn Around Time "<<endl;
-for(int i=0;i<n;i++)
+for(int i=0;i<j;i++)
 {
     cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t   "<<p[i].BrustTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
 }
@@ -91,6 +129,6 @@ cout<<"Average waiting time: "<<p[4].awt1<<endl;
 cout<<"Total turm around time : "<<p[4].ttat1<<endl;
 cout<<"Average turn around time: "<<p[4].atat1<<endl;
 */
-    return 0;
+    return p;
 }
 
