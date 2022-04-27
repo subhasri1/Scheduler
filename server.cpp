@@ -9,11 +9,12 @@ using namespace std;
 #include<stdlib.h>
 #include<errno.h>
 #include "class.h"
+//#include "fcfs.h"
 
 int main(){
-	/*fstream file1;
-file1.open("dt.txt",ios::trunc);
-file1.close();*/
+	fstream file1;
+file1.open("dt.txt",ios::out|ios::trunc);
+file1.close();
 	
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	
@@ -51,9 +52,87 @@ file1.close();*/
 //cout<<sock_addr_cli.sin_port<<endl;
 while(1)
 {
+int n;
+read(client_fd,&n,sizeof(n));
+fstream file;
+file.open("dt.txt",ios::out|ios::trunc);
+file.close();
+if(n!=0){
+
+details d[n];
+fstream file1;
+file1.open("dt.txt",ios::app);
+for(int i=0;i<n;i++){
+read(client_fd,&d[i],sizeof(d[i]));
+d[i].get();
+string data;
+data+=to_string(d[i].ProcessType)+",";
+data+=to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
+cout<<data<<endl;
+
+//data="haye ram";
+file1<<data<<endl;
+
+
+}
+file1.close();
+
+if(d[0].ProcessType==1){
+
+struct process *p=fcfs();
+struct process q[10];
+
+for(int i=0;i<n;i++){
+q[i]=*p;
+cout<<q[i].pid<<endl;
+//cout<<i<<endl;
+write(client_fd,&q[i],sizeof(q[i]));
+p++;
+}/*
+fstream file1;
+file1.open("dt.txt",ios::out|ios::trunc);
+file1.close();*/
 	
-details d;
-read(client_fd,&d,sizeof(d));
+}
+
+else if(d[0].ProcessType==2){
+
+struct process *p=priority();
+struct process q[10];
+
+for(int i=0;i<n;i++){
+q[i]=*p;
+cout<<q[i].pid<<endl;
+//cout<<i<<endl;
+write(client_fd,&q[i],sizeof(q[i]));
+p++;
+}
+
+}
+
+else if(d[0].ProcessType==3){
+
+struct process *p=rr();
+struct process q[10];
+
+for(int i=0;i<n;i++){
+q[i]=*p;
+cout<<q[i].pid<<endl;
+//cout<<i<<endl;
+write(client_fd,&q[i],sizeof(q[i]));
+p++;
+}/*
+fstream file1;
+file1.open("dt.txt",ios::out|ios::trunc);
+file1.close();*/
+}
+
+}
+else{
+break;
+} 
+}
+/*
 if(d.rollno==0){
 break;
 }
@@ -61,7 +140,7 @@ else{
 cout<<"from client:"<<endl;
 d.get();
 string data;
-data+="Rollno is:";
+data+="process is:";
 data+=to_string(d.rollno)+",arrival time is:"+to_string(d.standard)+",brust time is:"+to_string(d.fee)+"/n";
 cout<<data<<endl;
 fstream file1;
@@ -73,7 +152,7 @@ file1.close();
 //file1<<"aj1";
 //file1 << data;
 //write(client_fd,"hello",5);
-}
+}*/
 //file1.close();
 if(close(serv_fd)==-1){
 	perror("socket close");
