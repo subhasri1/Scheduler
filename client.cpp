@@ -35,7 +35,7 @@ int main(){
 	cout<<"1 for fcfs process, 2 for priority,3 for round robin,4 for shortest job first and 0 for exit";
 	int k,pid,a,b,pr,n=0,tq;
 	cin>>k;
-	details d[n];
+	details d[10];
 	
 	switch(k){
 	case 0: p=0;
@@ -48,6 +48,7 @@ int main(){
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
+			
 			cout<<"enter process pid,bt,at"<<endl;
 			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,1,0,0);
@@ -56,14 +57,15 @@ int main(){
 		}
 		struct process p[10];
 		for(int i=0;i<n;i++){
+		cout<<i<<endl;
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<p[i].pid<<endl;
 		}
 		
-		cout<<" pid   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<" pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
 		for(int i=0;i<n;i++)
 		{
-    		cout<<" "<<p[i].pid<<"\t"<<p[i].BurstTime<<"\t   "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
+    		cout<<" "<<p[i].pid<<"\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
 		}
 		
 		break;
@@ -92,13 +94,13 @@ int main(){
 		
 		break;
 		
-	case 3: cout<<"ener no of process"<<endl;
-		cin>>n;
+	case 3: cout<<"ener no of process and time Quantum"<<endl;
+		cin>>n>>tq;
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,bt,at,time quantum"<<endl;
-			cin>>pid>>b>>a>>tq;
+			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,3,0,tq);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
@@ -122,8 +124,8 @@ int main(){
 		
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,bt,at"<<endl;
-			cin>>pid>>b>>a>>tq;
-			d[i].set(pid,a,b,3,0,0);
+			cin>>pid>>b>>a;
+			d[i].set(pid,a,b,4,0,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
@@ -132,10 +134,10 @@ int main(){
 		read(serv_fd,&s[i],sizeof(s[i]));
 		cout<<s[i].pid<<endl;
 		}
-		cout<<" pid   TimeQuantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<" pid   Brust Time   Waiting Time   Turn Around Time"<<endl;
 		for(int i=0;i<n;i++)
 		{
-    		cout<<" "<<s[i].pid<<"\t"<<s[i].TimeQuantum<<"\t  "<<s[i].BurstTime<<"\t   "<<s[i].WaitingTime<<"\t    "<<s[i].TurnAroundTime<<endl;
+    		cout<<" "<<s[i].pid<<"\t  "<<s[i].BurstTime<<"\t   "<<s[i].WaitingTime<<"\t    "<<s[i].TurnAroundTime<<endl;
 		}
 		
 		break;

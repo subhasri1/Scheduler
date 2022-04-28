@@ -75,7 +75,7 @@ struct process_struct
     bool is_completed[100]={false},is_first_process=true;
     int current_time = 0;
     int completed = 0;;
-    cout<<"Enter total number of processes: ";
+    //cout<<"Enter total number of processes: ";
     //cin>>j;    
     int sum_TurnAroundTime=0,sum_WaitingTime=0,sum_ResponseTime=0,total_idle_time=0,prev=0,length_cycle;
     float cpu_utilization;
@@ -83,7 +83,7 @@ struct process_struct
     
     cout << fixed << setprecision(2);
 
-    for(int i=0;i<j;i++)
+    /*for(int i=0;i<j;i++)
     {
         cout<<"\nEnter Process " <<i<< " Arrival Time: ";
         //cin >> p[i].ArrivalTime;
@@ -95,7 +95,7 @@ struct process_struct
         cout<<"\nEnter Process " <<i<< " Burst Time: ";
         //cin >> p[i].BurstTime;
     }
-    
+    */
     
     while(completed!=j)
     {
@@ -168,4 +168,3 @@ struct process_struct
     cout<<"\nCPU Utilization(Percentage)= " << cpu_utilization*100;
     return p;
 }
-

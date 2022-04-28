@@ -139,10 +139,11 @@ p++;
 }
 
 }
-
+}
 else{
 break;
 } 
+
 }
 /*
 if(d.rollno==0){
