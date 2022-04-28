@@ -2,6 +2,8 @@
 serv: server.cpp fcfs.o rr.o priority.o sjf.o
 	g++ -o serv server.cpp fcfs.o rr.o priority.o sjf.o
 
+
+
 fcfs.o: fcfs.cpp class.h
 	g++ -c fcfs.cpp
 	

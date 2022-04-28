@@ -1,5 +1,6 @@
 #include<iostream>
 #include<sys/types.h>
+#include<fstream>
 using namespace std;
 #include<sys/socket.h>
 #include<netinet/in.h>
@@ -8,11 +9,12 @@ using namespace std;
 #include<stdlib.h>
 #include<errno.h>
 #include "class.h"
+#include<vector>
 //#include "struct.h"
 
 //client send a single character 'a' to server and receive b from the server.
 int main(){
-	int p=1;
+	int l=1;
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	if(serv_fd == -1)
 	{
@@ -31,14 +33,19 @@ int main(){
 		perror("connect error");
 		exit(1);
 }	
-	while(p){
+	while(l){
 	cout<<"1 for fcfs process, 2 for priority,3 for round robin,4 for shortest job first and 0 for exit";
 	int k,pid,a,b,pr,n=0,tq;
 	cin>>k;
+	
 	details d[10];
+	struct process p[10];
+	//struct process q[10];
+	//struct process r[10];
+	//struct process s[10];
 	
 	switch(k){
-	case 0: p=0;
+	case 0: l=0;
 	
 	write(serv_fd,&n,sizeof(n));
 		break;
@@ -55,18 +62,15 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		struct process p[10];
+		cout<<" pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
+		
 		for(int i=0;i<n;i++){
-		cout<<i<<endl;
+		//cout<<i<<endl;
 		read(serv_fd,&p[i],sizeof(p[i]));
+		cout<<" "<<p[i].pid<<"\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
 		//cout<<p[i].pid<<endl;
 		}
 		
-		cout<<" pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
-		for(int i=0;i<n;i++)
-		{
-    		cout<<" "<<p[i].pid<<"\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
-		}
 		
 		break;
 		
@@ -81,16 +85,17 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		struct process q[10];
-		for(int i=0;i<n;i++){
-		read(serv_fd,&q[i],sizeof(q[i]));
-		//cout<<q[i].Priority<<endl;
-		}
+		//struct process p[10];
 		cout<<" pid   priority   Brust Time   Waiting Time   Turn Around Time"<<endl;
-		for(int i=0;i<n;i++)
-		{
-    		cout<<" "<<q[i].pid<<"\t"<<q[i].Priority<<"\t  "<<q[i].BurstTime<<"\t  "<<q[i].WaitingTime<<"\t   "<<q[i].TurnAroundTime<<endl;
+		
+		
+		for(int i=0;i<n;i++){
+		read(serv_fd,&p[i],sizeof(p[i]));
+		//cout<<q[i].Priority<<endl;
+		cout<<" "<<p[i].pid<<"\t"<<p[i].Priority<<"\t  "<<p[i].BurstTime<<"\t  "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
 		}
+		
+		
 		
 		break;
 		
@@ -105,16 +110,16 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		struct process r[10];
-		for(int i=0;i<n;i++){
-		read(serv_fd,&r[i],sizeof(r[i]));
-		cout<<r[i].pid<<endl;
-		}
 		cout<<" pid   TimeQuantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
-		for(int i=0;i<n;i++)
-		{
-    		cout<<" "<<r[i].pid<<"\t"<<r[i].TimeQuantum<<"\t  "<<r[i].BurstTime<<"\t   "<<r[i].WaitingTime<<"\t    "<<r[i].TurnAroundTime<<endl;
+		
+		
+		for(int i=0;i<n;i++){
+		read(serv_fd,&p[i],sizeof(p[i]));
+		//cout<<r[i].pid<<endl;
+		cout<<" "<<p[i].pid<<"\t"<<p[i].TimeQuantum<<"\t  "<<p[i].BurstTime<<"\t   "<<p[i].WaitingTime<<"\t    "<<p[i].TurnAroundTime<<endl;
 		}
+		
+		
 		
 		break;
 		
@@ -129,18 +134,92 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		struct process s[10];
-		for(int i=0;i<n;i++){
-		read(serv_fd,&s[i],sizeof(s[i]));
-		cout<<s[i].pid<<endl;
-		}
 		cout<<" pid   Brust Time   Waiting Time   Turn Around Time"<<endl;
-		for(int i=0;i<n;i++)
-		{
-    		cout<<" "<<s[i].pid<<"\t  "<<s[i].BurstTime<<"\t   "<<s[i].WaitingTime<<"\t    "<<s[i].TurnAroundTime<<endl;
+		for(int i=0;i<n;i++){
+		read(serv_fd,&p[i],sizeof(p[i]));
+		//cout<<s[i].pid<<endl;
+		cout<<" "<<p[i].pid<<"\t  "<<p[i].BurstTime<<"\t   "<<p[i].WaitingTime<<"\t    "<<p[i].TurnAroundTime<<endl;
 		}
 		
+		
 		break;
+		
+		case 5: fstream file;
+		file.open("dt.txt",ios::out|ios::trunc);
+		file.close();
+		
+		
+		cout<<"enter no of process and timeQuantum"<<endl;
+		cin>>n;
+		cin>>tq;
+		//write(serv_fd,&n,sizeof(n));
+		fstream file1;
+		file1.open("dt.txt",ios::app);
+		
+		for(int i=0;i<n;i++){
+			cout<<"enter process pid,bt,at,priority"<<endl;
+			cin>>pid>>b>>a>>pr;
+			d[i].set(pid,a,b,5,pr,tq);
+			//write(serv_fd,&d[i],sizeof(d[i]));
+			string data;
+		
+		data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
+		cout<<data<<endl;
+
+
+		file1<<data<<endl;
+	
+		}
+		file1.close();
+		
+
+		struct process *q=fcfs();
+		struct process *r=priority();
+		struct process *s=rr();
+
+		struct process *t=sjf();
+
+		int arr[4]={0,0,0,0};
+		for(int i=0;i<n;i++){
+
+		arr[0]+=q->WaitingTime;
+
+		q++;
+		arr[1]+=r->WaitingTime;
+
+		r++;
+		arr[2]+=s->WaitingTime;
+
+		s++;
+		arr[3]+=t->WaitingTime;
+
+		t++;
+		}
+		int min=arr[0];
+		for(int i=1;i<4;i++){
+		if(min<arr[i]){
+		min=arr[i];
+		}
+		}
+		cout<<"best algo is:";
+		for(int i=0;i<4;i++){
+		if(arr[i]==min){
+		switch(i){
+		case(0):cout<<"fcfs"<<endl;
+			break;
+		case(1):cout<<"priority"<<endl;
+			break;
+		case(2):cout<<"RR"<<endl;
+			break;
+		case(3):cout<<"sjf"<<endl;
+			break;
+		}
+		}
+		}
+		break;
+		
+
+
 		
 			
 		
