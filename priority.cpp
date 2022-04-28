@@ -130,8 +130,8 @@ for(int i=1;i<j;i++)
    p[i].StartTime=p[i-1].ComplitionTime;
    p[i].ComplitionTime=p[i].StartTime+p[i].TurnAroundTime-p[i].WaitingTime;
 }
-cout<<" processid  Priority  Arrival Time   Completion Time   Burst Time    Waiting Time    Turn Around Time "<<endl;
-for(int i=0;i<j;i++)
+//cout<<" processid  Priority  Arrival Time   Completion Time   Burst Time    Waiting Time    Turn Around Time "<<endl;
+/*for(int i=0;i<j;i++)
 {
     cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t  "<<p[i].ArrivalTime<<"\t "<<p[i].ComplitionTime<<"\t"<<p[i].BurstTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
 }
@@ -141,7 +141,7 @@ cout<<"Total waiting time: "<<sumwt<<endl;
 cout<<"Average waiting time: "<<sumwt/j<<endl;
 cout<<"Total turm around time : "<<sumtat<<endl;
 cout<<"Average turn around time: "<<sumtat/j<<endl;
-
+*/
     return p;
 }
 

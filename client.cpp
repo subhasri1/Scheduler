@@ -11,6 +11,7 @@ using namespace std;
 #include "class.h"
 #include<vector>
 //#include "struct.h"
+#define size 100
 
 //client send a single character 'a' to server and receive b from the server.
 int main(){
@@ -34,15 +35,16 @@ int main(){
 		exit(1);
 }	
 	while(l){
-	cout<<"1 for fcfs process, 2 for priority,3 for round robin,4 for shortest job first and 0 for exit";
+	fstream file;
+		file.open("dt.txt",ios::out|ios::trunc);
+		file.close();
+	cout<<"Press 1 for fcfs algorithm.\nPress 2 for algorithm.\nPress 3 for round robin algorithm.\nPress 4 for shortest job first algorithm.\nPress 5 for Comparing all algorithms.\nPress 0 for exit.\n";
 	int k,pid,a,b,pr,n=0,tq;
 	cin>>k;
 	
-	details d[10];
-	struct process p[10];
-	//struct process q[10];
-	//struct process r[10];
-	//struct process s[10];
+	details d[size];
+	struct process p[size];
+	
 	
 	switch(k){
 	case 0: l=0;
@@ -50,106 +52,104 @@ int main(){
 	write(serv_fd,&n,sizeof(n));
 		break;
 	
-	case 1: cout<<"ener no of process"<<endl;
+	case 1: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
 			
-			cout<<"enter process pid,bt,at"<<endl;
+			cout<<"Enter process pid,Brust TIme,Arrival TIme"<<endl;
 			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,1,0,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<" pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
+		cout<<"Pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
 		
 		for(int i=0;i<n;i++){
 		//cout<<i<<endl;
 		read(serv_fd,&p[i],sizeof(p[i]));
-		cout<<" "<<p[i].pid<<"\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
+		cout<<p[i].pid<<"\t  "<<p[i].ArrivalTime<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
 		//cout<<p[i].pid<<endl;
 		}
 		
 		
 		break;
 		
-	case 2: cout<<"ener no of process"<<endl;
+	case 2: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
-			cout<<"enter process pid,bt,at,priority"<<endl;
+			cout<<"Enter process pid,Brust Time,Arrival TIme,Priority."<<endl;
 			cin>>pid>>b>>a>>pr;
 			d[i].set(pid,a,b,2,pr,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
 		//struct process p[10];
-		cout<<" pid   priority   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid   priority   Brust Time   Waiting Time   Turn Around Time"<<endl;
 		
 		
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<q[i].Priority<<endl;
-		cout<<" "<<p[i].pid<<"\t"<<p[i].Priority<<"\t  "<<p[i].BurstTime<<"\t  "<<p[i].WaitingTime<<"\t   "<<p[i].TurnAroundTime<<endl;
+		cout<<p[i].pid<<"\t  "<<p[i].Priority<<"\t\t  "<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
 		}
 		
 		
 		
 		break;
 		
-	case 3: cout<<"ener no of process and time Quantum"<<endl;
+	case 3: cout<<"Enter no. of process and Time Quantum."<<endl;
 		cin>>n>>tq;
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
-			cout<<"enter process pid,bt,at,time quantum"<<endl;
+			cout<<"Enter process pid,Burst TIme,Arrival TIme,Time Quantum."<<endl;
 			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,3,0,tq);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<" pid   TimeQuantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid   Time Quantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
 		
 		
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<r[i].pid<<endl;
-		cout<<" "<<p[i].pid<<"\t"<<p[i].TimeQuantum<<"\t  "<<p[i].BurstTime<<"\t   "<<p[i].WaitingTime<<"\t    "<<p[i].TurnAroundTime<<endl;
+		cout<<p[i].pid<<"\t  "<<p[i].TimeQuantum<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
 		}
 		
 		
 		
 		break;
 		
-		case 4: cout<<"enter no of process"<<endl;
+		case 4: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
 		
 		for(int i=0;i<n;i++){
-			cout<<"enter process pid,bt,at"<<endl;
+			cout<<"Enter process pid,Burst TIme,Arrival TIme."<<endl;
 			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,4,0,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<" pid   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid   Arrival Time   Brust Time   Waiting Time   Turn Around Time"<<endl;
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<s[i].pid<<endl;
-		cout<<" "<<p[i].pid<<"\t  "<<p[i].BurstTime<<"\t   "<<p[i].WaitingTime<<"\t    "<<p[i].TurnAroundTime<<endl;
+		cout<<p[i].pid<<"\t  "<<p[i].ArrivalTime<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
 		}
 		
 		
 		break;
 		
-		case 5: fstream file;
-		file.open("dt.txt",ios::out|ios::trunc);
-		file.close();
+		case 5: 
 		
 		
-		cout<<"enter no of process and timeQuantum"<<endl;
+		cout<<"Enter no. of process and Time Quantum."<<endl;
 		cin>>n;
 		cin>>tq;
 		//write(serv_fd,&n,sizeof(n));
@@ -157,14 +157,14 @@ int main(){
 		file1.open("dt.txt",ios::app);
 		
 		for(int i=0;i<n;i++){
-			cout<<"enter process pid,bt,at,priority"<<endl;
+			cout<<"enter process pid,Burst TIme,Arrival TIme,Priority."<<endl;
 			cin>>pid>>b>>a>>pr;
 			d[i].set(pid,a,b,5,pr,tq);
 			//write(serv_fd,&d[i],sizeof(d[i]));
 			string data;
 		
 		data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
-		cout<<data<<endl;
+		//cout<<data<<endl;
 
 
 		file1<<data<<endl;
@@ -201,17 +201,17 @@ int main(){
 		min=arr[i];
 		}
 		}
-		cout<<"best algo is:";
+		cout<<"Best algorithm for these processes: \n";
 		for(int i=0;i<4;i++){
 		if(arr[i]==min){
 		switch(i){
-		case(0):cout<<"fcfs"<<endl;
+		case(0):cout<<"-First Come First Serve Algorithm\n"<<endl;
 			break;
-		case(1):cout<<"priority"<<endl;
+		case(1):cout<<"-Priority Algorithm\n"<<endl;
 			break;
-		case(2):cout<<"RR"<<endl;
+		case(2):cout<<"-Round Robin Algorithm\n"<<endl;
 			break;
-		case(3):cout<<"sjf"<<endl;
+		case(3):cout<<"-Shortest Job First Algorthm\n"<<endl;
 			break;
 		}
 		}
@@ -223,16 +223,7 @@ int main(){
 		
 			
 		
-	/*case 1: cout<<"enter process pid,arrival and brust";
-		cin>>pid>>a>>b;
-		
-
-	  	d.set(pid,a,b);
-	//d.get();	
-	//string ch;
-	write(serv_fd,&d,sizeof(d));
-	break;
-	*/
+	
 	
 		
 	}

@@ -14,8 +14,7 @@ ProcessType=t;
 Priority=p;
 TimeQuantum=q;
 };
-void get(){
-};
+
 };
 
 struct process{

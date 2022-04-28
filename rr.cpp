@@ -69,7 +69,7 @@ struct process *rr()
     int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
     double total_WaitingTime = 0.0;
     double total_TurnAroundTime = 0.0;
-  cout<<"While ke ppehle tq:"<<tq<<endl;
+  //cout<<"While ke ppehle tq:"<<tq<<endl;
     for(int i=0; i<j; i++)
         p[i].bt_remaining = p[i].BurstTime;
 
@@ -112,9 +112,9 @@ struct process *rr()
             current_time++;
         }
     }
-    cout<<fixed<<setprecision(2);
-    cout<<"Average Waiting Time: "<<(total_WaitingTime/j)<<"\n";
-    cout<<"Average Turn Around Time: "<<(total_TurnAroundTime/j)<<"\n";
+    //cout<<fixed<<setprecision(2);
+    //cout<<"Average Waiting Time: "<<(total_WaitingTime/j)<<"\n";
+    //cout<<"Average Turn Around Time: "<<(total_TurnAroundTime/j)<<"\n";
     //cout<<"Number of processes are: "<<j<<endl;
     
     return p;

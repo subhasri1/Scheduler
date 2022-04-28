@@ -81,7 +81,7 @@ struct process_struct
     float cpu_utilization;
     int max_ComplitionTime,min_ArrivalTime;
     
-    cout << fixed << setprecision(2);
+    //cout << fixed << setprecision(2);
 
     /*for(int i=0;i<j;i++)
     {
@@ -154,17 +154,17 @@ struct process_struct
     length_cycle = max_ComplitionTime - min_ArrivalTime;
 
      //Output
-    cout<<"\nProcess No.\tTurnAroundTime\tCPU Burst Time\tCT\tTArrivalTime\tWT\tRT\n";
+    //cout<<"\nProcess No.\tTurnAroundTime\tCPU Burst Time\tCT\tTArrivalTime\tWT\tRT\n";
     for(int i=0;i<j;i++)
-     cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnAroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
-    cout<<endl;  
+     //cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnAroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
+    //cout<<endl;  
     
     cpu_utilization = (float)(length_cycle - total_idle_time)/ length_cycle;
 
-    cout<<"\nAverage Turn Around time= "<< (float)sum_TurnAroundTime/j;
+    /*cout<<"\nAverage Turn Around time= "<< (float)sum_TurnAroundTime/j;
     cout<<"\nAverage Waiting Time= "<<(float)sum_WaitingTime/j;
     cout<<"\nAverage Response Time= "<<(float)sum_ResponseTime/j;    
     cout<<"\nThroughput= "<<j/(float)length_cycle;
-    cout<<"\nCPU Utilization(Percentage)= " << cpu_utilization*100;
+    cout<<"\nCPU Utilization(Percentage)= " << cpu_utilization*100;*/
     return p;
 }

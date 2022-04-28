@@ -107,7 +107,7 @@ file1.close();
     float sum_tat = 0, sum_wt = 0, sum_rt = 0;
     int length_cycle, total_idle_time = 0;
 
-    cout << fixed << setprecision(2);
+    //cout << fixed << setprecision(2);
     /*for (int i = 0; i < n; i++)
     {
         cout << "\nEnter Process " << i << " Arrival Time: ";
@@ -143,10 +143,10 @@ file1.close();
     sort(p, p + j, comparisonPID);
 
     // Output
-    cout << "\nProcess No.\tAT\tCPU Burst Time\tCT\tTAT\tWT\tRT\n";
-    for (int i = 0; i < j; i++)
+    //cout << "\nProcess No.\tAT\tCPU Burst Time\tCT\tTAT\tWT\tRT\n";
+    /*for (int i = 0; i < j; i++)
         cout << i << "\t\t" << p[i].ArrivalTime << "\t" << p[i].BurstTime << "\t\t" << p[i].ComplitionTime << "\t" << p[i].TurnAroundTime << "\t" << p[i].WaitingTime << "\t" << p[i].ResponseTime << endl;
-    cout << endl;
+    cout << endl;*/
 
     //cout << "\nAverage Turn Around time= " << sum_tat / j;
     //cout << "\nAverage Waiting Time= " << sum_wt / j;

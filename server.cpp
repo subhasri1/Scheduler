@@ -10,6 +10,7 @@ using namespace std;
 #include<errno.h>
 #include "class.h"
 //#include "fcfs.h"
+#define size 100
 
 int main(){
 	fstream file1;
@@ -54,9 +55,9 @@ while(1)
 {
 int n;
 read(client_fd,&n,sizeof(n));
-fstream file;
+/*fstream file;
 file.open("dt.txt",ios::out|ios::trunc);
-file.close();
+file.close();*/
 if(n!=0){
 
 details d[n];
@@ -64,7 +65,7 @@ fstream file1;
 file1.open("dt.txt",ios::app);
 for(int i=0;i<n;i++){
 read(client_fd,&d[i],sizeof(d[i]));
-d[i].get();
+
 string data;
 data+=to_string(d[i].ProcessType)+",";
 data+=to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
@@ -80,11 +81,11 @@ file1.close();
 if(d[0].ProcessType==1){
 
 struct process *p=fcfs();
-struct process q[10];
+struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-cout<<q[i].pid<<endl;
+//cout<<q[i].pid<<endl;
 //cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
@@ -98,11 +99,11 @@ file1.close();*/
 else if(d[0].ProcessType==2){
 
 struct process *p=priority();
-struct process q[10];
+struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-cout<<q[i].pid<<endl;
+//cout<<q[i].pid<<endl;
 //cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
@@ -113,11 +114,11 @@ p++;
 else if(d[0].ProcessType==3){
 
 struct process *p=rr();
-struct process q[10];
+struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-cout<<q[i].pid<<endl;
+//cout<<q[i].pid<<endl;
 //cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
@@ -128,11 +129,11 @@ p++;
 else if(d[0].ProcessType==4){
 
 struct process *p=sjf();
-struct process q[10];
+struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-cout<<q[i].pid<<endl;
+//cout<<q[i].pid<<endl;
 //cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
