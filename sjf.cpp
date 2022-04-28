@@ -10,10 +10,11 @@ using namespace std;
 #include<errno.h>
 #include "class.h"
 #include <algorithm>
+#include <climits>
 #include <iomanip>
 struct process* sjf()
 {
-//int j,BurstTime[20],WaitingTime[20],TurnArroundTime[20],avwt=0,avtArrivalTime=0,i,j,arrival[20],ComplitionTime[20],ResponseTime[20];
+//int j,BurstTime[20],WaitingTime[20],TurnAroundTime[20],avwt=0,avtArrivalTime=0,i,j,arrival[20],ComplitionTime[20],ResponseTime[20];
 string st,BurstTime,pid,ArrivalTime;
 int flag=0,k,j=0;
 fstream file1;
@@ -68,20 +69,17 @@ struct process_struct
   int Pid;
   int ArrivalTime;
   int BurstTime;
-  int ComplitionTime,WaitingTime,TurnArroundTime,ResponseTime,StartTime;
+  int ComplitionTime,WaitingTime,TurnAroundTime,ResponseTime,St;
 }p[100];*/
-
-
-    
 
     bool is_completed[100]={false},is_first_process=true;
     int current_time = 0;
     int completed = 0;;
     cout<<"Enter total number of processes: ";
     //cin>>j;    
-    int sum_tArrivalTime=0,sum_wt=0,sum_rt=0,total_idle_time=0,prev=0,length_cycle;
-    floArrivalTime cpu_utilizArrivalTimeion;
-    int max_completion_time,min_arrival_time;
+    int sum_TurnAroundTime=0,sum_WaitingTime=0,sum_ResponseTime=0,total_idle_time=0,prev=0,length_cycle;
+    float cpu_utilization;
+    int max_ComplitionTime,min_ArrivalTime;
     
     cout << fixed << setprecision(2);
 
@@ -127,14 +125,14 @@ struct process_struct
         {
         p[min_index].StartTime = current_time;
         p[min_index].ComplitionTime = p[min_index].StartTime + p[min_index].BurstTime;
-        p[min_index].TurnArroundTime = p[min_index].ComplitionTime - p[min_index].ArrivalTime;
-        p[min_index].WaitingTime = p[min_index].TurnArroundTime - p[min_index].BurstTime;
+        p[min_index].TurnAroundTime = p[min_index].ComplitionTime - p[min_index].ArrivalTime;
+        p[min_index].WaitingTime = p[min_index].TurnAroundTime - p[min_index].BurstTime;
         p[min_index].ResponseTime = p[min_index].WaitingTime;
-        // p[min_index].ResponseTime = p[min_index].StartTime - p[min_index].ArrivalTime;
+        // p[min_index].ResponseTime = p[min_index].St - p[min_index].ArrivalTime;
                 
-        sum_tArrivalTime +=p[min_index].TurnArroundTime;
-        sum_wt += p[min_index].WaitingTime;
-        sum_rt += p[min_index].ResponseTime;
+        sum_TurnAroundTime +=p[min_index].TurnAroundTime;
+        sum_WaitingTime += p[min_index].WaitingTime;
+        sum_ResponseTime += p[min_index].ResponseTime;
         total_idle_time += (is_first_process==true) ? 0 : (p[min_index].StartTime -  prev);
         
         completed++;
@@ -146,27 +144,28 @@ struct process_struct
     }
     
     //CalculArrivalTimee Length of Process completion cycle
-    max_completion_time = INT_MIN;
-    min_arrival_time = INT_MAX;
+    max_ComplitionTime = INT_MIN;
+    min_ArrivalTime = INT_MAX;
     for(int i=0;i<j;i++)
     {
-        max_completion_time = max(max_completion_time,p[i].ComplitionTime);
-        min_arrival_time = min(min_arrival_time,p[i].ArrivalTime);
+        max_ComplitionTime = max(max_ComplitionTime,p[i].ComplitionTime);
+        min_ArrivalTime = min(min_ArrivalTime,p[i].ArrivalTime);
     }
-    length_cycle = max_completion_time - min_arrival_time;
+    length_cycle = max_ComplitionTime - min_ArrivalTime;
 
      //Output
-    cout<<"\nProcess No.\TurnArroundTime\tCPU Burst Time\tCT\tTArrivalTime\tWT\tRT\j";
+    cout<<"\nProcess No.\tTurnAroundTime\tCPU Burst Time\tCT\tTArrivalTime\tWT\tRT\n";
     for(int i=0;i<j;i++)
-     cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnArroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
+     cout<<i<<"\t\t"<<p[i].ArrivalTime<<"\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t"<<p[i].TurnAroundTime<<"\t"<<p[i].WaitingTime<<"\t"<<p[i].ResponseTime<<endl;
     cout<<endl;  
     
-    cpu_utilizArrivalTimeion = (floArrivalTime)(length_cycle - total_idle_time)/ length_cycle;
+    cpu_utilization = (float)(length_cycle - total_idle_time)/ length_cycle;
 
-    cout<<"\nAverage Turn Around time= "<< (floArrivalTime)sum_tArrivalTime/j;
-    cout<<"\nAverage Waiting Time= "<<(floArrivalTime)sum_wt/j;
-    cout<<"\nAverage Response Time= "<<(floArrivalTime)sum_rt/j;    
-    cout<<"\nThroughput= "<<j/(floArrivalTime)length_cycle;
-    cout<<"\nCPU UtilizArrivalTimeion(Percentage)= " << cpu_utilizArrivalTimeion*100;
+    cout<<"\nAverage Turn Around time= "<< (float)sum_TurnAroundTime/j;
+    cout<<"\nAverage Waiting Time= "<<(float)sum_WaitingTime/j;
+    cout<<"\nAverage Response Time= "<<(float)sum_ResponseTime/j;    
+    cout<<"\nThroughput= "<<j/(float)length_cycle;
+    cout<<"\nCPU Utilization(Percentage)= " << cpu_utilization*100;
     return p;
 }
+
