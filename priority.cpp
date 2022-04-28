@@ -96,11 +96,17 @@ for(int m=0;m<j;m++)
     }
 }
 
-p[0].ComplitionTime=p[0].BurstTime;
+p[0].TimeQuantum=p[0].ArrivalTime;
 p[0].WaitingTime=0;
 for(int i=1;i<j;i++)
 {
-p[i].ComplitionTime=p[0].BurstTime+p[i-1].ComplitionTime;
+p[i].TimeQuantum=p[i-1].BurstTime+p[i-1].TimeQuantum;
+p[i].WaitingTime=p[i].TimeQuantum-p[i].ArrivalTime;
+//if waiting time is negative
+	if(p[i].WaitingTime<0)
+	{
+	p[i].WaitingTime=0;
+	}
 }
 for(int i=0;i<j;i++)
 {
@@ -111,23 +117,31 @@ for(int i=0;i<j;i++)
 }
 for(int i=0;i<j;i++)
 {
-    p[i].TurnAroundTime=p[i].ComplitionTime;
-    p[i].WaitingTime=p[i].TurnAroundTime-p[i].BurstTime;
+    p[i].TurnAroundTime=p[i].BurstTime+p[i].WaitingTime;
+    
     sumtat+=p[i].TurnAroundTime;
     sumwt+=p[i].WaitingTime;
 }
-cout<<" pid  Priority   Burst Time    Waiting Time    Turn Around Time "<<endl;
+//calculating the start time and end time
+p[0].StartTime=p[0].ArrivalTime;
+p[0].ComplitionTime=p[0].StartTime+p[0].TurnAroundTime;
+for(int i=1;i<j;i++)
+{
+   p[i].StartTime=p[i-1].ComplitionTime;
+   p[i].ComplitionTime=p[i].StartTime+p[i].TurnAroundTime-p[i].WaitingTime;
+}
+cout<<" processid  Priority  Arrival Time   Completion Time   Burst Time    Waiting Time    Turn Around Time "<<endl;
 for(int i=0;i<j;i++)
 {
-    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t   "<<p[i].BurstTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
+    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t  "<<p[i].ArrivalTime<<"\t "<<p[i].ComplitionTime<<"\t"<<p[i].BurstTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
 }
-/*p[4].awt1=sumwt/n;
-p[4].atat1=sumtat/n;
+//p[4].awt1=sumwt/n;
+//p[4].atat1=sumtat/n;
 cout<<"Total waiting time: "<<sumwt<<endl;
-cout<<"Average waiting time: "<<p[4].awt1<<endl;
-cout<<"Total turm around time : "<<p[4].ttat1<<endl;
-cout<<"Average turn around time: "<<p[4].atat1<<endl;
-*/
+cout<<"Average waiting time: "<<sumwt/j<<endl;
+cout<<"Total turm around time : "<<sumtat<<endl;
+cout<<"Average turn around time: "<<sumtat/j<<endl;
+
     return p;
 }
 
