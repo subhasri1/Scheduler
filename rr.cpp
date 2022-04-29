@@ -19,7 +19,8 @@ struct process *rr()
     string st, BurstTime, pid, ArrivalTime, TimeQuantum;
     int flag = 0, k, j = 0;
     fstream file1;
-    file1.open("dt.txt", ios::in);
+    file1.open("dt.txt",ios::in);
+		
     // struct process* p = (process*)calloc(10,sizeof(struct process));
     // struct process p[10];
     struct process *p = new struct process[10];
@@ -63,7 +64,9 @@ struct process *rr()
         j++;
         flag = 0;
     }
+    
     file1.close();
+		
     int tq = p[0].TimeQuantum;
     
     int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;

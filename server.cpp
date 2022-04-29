@@ -9,30 +9,29 @@ using namespace std;
 #include<stdlib.h>
 #include<errno.h>
 #include "class.h"
-//#include "fcfs.h"
+
 #define size 100
 
 int main(){
-	fstream file1;
-file1.open("dt.txt",ios::out|ios::trunc);
-file1.close();
 	
+	//Making server socket.
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	
 	if(serv_fd == -1)
 	{
-		perror("socket creation error");
+		perror("Socket creation error");
 		exit(1);
 	}
-
+	//Storing server info in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
 	sock_addr_serv.sin_port = 9955;
 	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
 
+	//Binding struct with server structure.
 	if(bind(serv_fd,(struct sockaddr *)&sock_addr_serv,sizeof(sock_addr_serv))==-1)
 	{
-		perror("bind error");
+		perror("Bind error");
 		exit(1);
 	}
 	
@@ -50,34 +49,33 @@ file1.close();
 			perror("accept error");
 			exit(1);
 		}
-//cout<<sock_addr_cli.sin_port<<endl;
+//Applying a infinite loop to read data sent from server.
 while(1)
 {
 int n;
 read(client_fd,&n,sizeof(n));
-/*fstream file;
-file.open("dt.txt",ios::out|ios::trunc);
-file.close();*/
+
 if(n!=0){
 
 details d[n];
 fstream file1;
+//opening text file to store process info.
 file1.open("dt.txt",ios::app);
+//reading every process data from client and storing it into a file.		
 for(int i=0;i<n;i++){
 read(client_fd,&d[i],sizeof(d[i]));
 
 string data;
-data+=to_string(d[i].ProcessType)+",";
-data+=to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
+data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
 cout<<data<<endl;
 
-//data="haye ram";
+
 file1<<data<<endl;
 
 
 }
 file1.close();
-
+//calling fcfs function.
 if(d[0].ProcessType==1){
 
 struct process *p=fcfs();
@@ -85,32 +83,26 @@ struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-//cout<<q[i].pid<<endl;
-//cout<<i<<endl;
+
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
-}/*
-fstream file1;
-file1.open("dt.txt",ios::out|ios::trunc);
-file1.close();*/
-	
 }
 
+	
+}
+//calling priority function.
 else if(d[0].ProcessType==2){
 
 struct process *p=priority();
 struct process q[size];
-
 for(int i=0;i<n;i++){
 q[i]=*p;
-//cout<<q[i].pid<<endl;
-//cout<<i<<endl;
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
 }
 
 }
-
+//calling round robin function.
 else if(d[0].ProcessType==3){
 
 struct process *p=rr();
@@ -118,14 +110,13 @@ struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-//cout<<q[i].pid<<endl;
-//cout<<i<<endl;
+
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
 }
 
 }
-
+//calling Shortest job first function.
 else if(d[0].ProcessType==4){
 
 struct process *p=sjf();
@@ -133,8 +124,7 @@ struct process q[size];
 
 for(int i=0;i<n;i++){
 q[i]=*p;
-//cout<<q[i].pid<<endl;
-//cout<<i<<endl;
+
 write(client_fd,&q[i],sizeof(q[i]));
 p++;
 }
@@ -146,28 +136,7 @@ break;
 } 
 
 }
-/*
-if(d.rollno==0){
-break;
-}
-else{
-cout<<"from client:"<<endl;
-d.get();
-string data;
-data+="process is:";
-data+=to_string(d.rollno)+",arrival time is:"+to_string(d.standard)+",brust time is:"+to_string(d.fee)+"/n";
-cout<<data<<endl;
-fstream file1;
-file1.open("dt.txt",ios::app);
-//data="haye ram";
-file1<<data;
-file1.close();
-}
-//file1<<"aj1";
-//file1 << data;
-//write(client_fd,"hello",5);
-}*/
-//file1.close();
+//closing socket.
 if(close(serv_fd)==-1){
 	perror("socket close");
 		exit(1);

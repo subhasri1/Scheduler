@@ -17,7 +17,9 @@ string st,BurstTime,pid,ArrivalTime,Priority;
 int flag=0,k,j=0;
 fstream file1;
 //we have open the file in the read mode below
+
 file1.open("dt.txt",ios::in);
+		
 //a structure pointer object in made below with .
 struct process *p=new struct process[10];
 //struct process *p;
@@ -67,7 +69,9 @@ j++;
 flag=0;
 }
 //closer of file "dt.txt" .since all the data related to the process has been stored in the process structure define in  class.h 
+
 file1.close();
+		
 
     int temp1,temp2,temp3;
     float sumtat=0.0,sumwt=0.0;
@@ -126,4 +130,3 @@ for(int i=1;i<j;i++)
 
     return p;
 }
-

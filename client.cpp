@@ -10,42 +10,48 @@ using namespace std;
 #include<errno.h>
 #include "class.h"
 #include<vector>
-//#include "struct.h"
+
 #define size 100
 
-//client send a single character 'a' to server and receive b from the server.
+//client send a process information to server.
 int main(){
 	int l=1;
+	//Making a client socket
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	if(serv_fd == -1)
 	{
 		perror("socket creation error");
 		exit(1);
 	}
-
+	//server information stored in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
 	sock_addr_serv.sin_port = 9955;
 	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
 
 	socklen_t len = sizeof(sock_addr_serv);
-
+	//connecting client socket and server.
 	if(connect(serv_fd,(struct sockaddr *)&sock_addr_serv,len)==-1){
 		perror("connect error");
 		exit(1);
 }	
 	while(l){
 	fstream file;
-		file.open("dt.txt",ios::out|ios::trunc);
-		file.close();
-	cout<<"Press 1 for fcfs algorithm.\nPress 2 for algorithm.\nPress 3 for round robin algorithm.\nPress 4 for shortest job first algorithm.\nPress 5 for Comparing all algorithms.\nPress 0 for exit.\n";
+	
+	file.open("dt.txt",ios::out|ios::trunc);
+		
+
+		
+	file.close();
+	//Taking input of process user want to run.	
+	cout<<"Press 1 for fcfs algorithm.\nPress 2 for priority algorithm.\nPress 3 for round robin algorithm.\nPress 4 for shortest job first algorithm.\nPress 5 for Comparing all algorithms.\nPress 0 for exit.\n";
 	int k,pid,a,b,pr,n=0,tq;
 	cin>>k;
 	
 	details d[size];
 	struct process p[size];
 	
-	
+	//Switch for different features.
 	switch(k){
 	case 0: l=0;
 	
@@ -55,7 +61,7 @@ int main(){
 	case 1: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
-		
+		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			
 			cout<<"Enter process pid,Brust TIme,Arrival TIme"<<endl;
@@ -64,13 +70,13 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<"Pid  Arrival Time  Brust Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
-		
+		cout<<"Pid  Arrival Time  Burst Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
+		//reading output from server after algo is executed
 		for(int i=0;i<n;i++){
-		//cout<<i<<endl;
+		
 		read(serv_fd,&p[i],sizeof(p[i]));
 		cout<<p[i].pid<<"\t  "<<p[i].ArrivalTime<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
-		//cout<<p[i].pid<<endl;
+		
 		}
 		
 		
@@ -79,7 +85,7 @@ int main(){
 	case 2: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
-		
+		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			cout<<"Enter process pid,Brust Time,Arrival TIme,Priority."<<endl;
 			cin>>pid>>b>>a>>pr;
@@ -87,13 +93,13 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		//struct process p[10];
-		cout<<"Pid   priority   Brust Time   Waiting Time   Turn Around Time"<<endl;
 		
+		cout<<"Pid   priority   Burst Time   Waiting Time   Turn Around Time"<<endl;
 		
+		//reading output from server after algo is executed
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
-		//cout<<q[i].Priority<<endl;
+		
 		cout<<p[i].pid<<"\t  "<<p[i].Priority<<"\t\t  "<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
 		}
 		
@@ -104,7 +110,7 @@ int main(){
 	case 3: cout<<"Enter no. of process and Time Quantum."<<endl;
 		cin>>n>>tq;
 		write(serv_fd,&n,sizeof(n));
-		
+		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			cout<<"Enter process pid,Burst TIme,Arrival TIme,Time Quantum."<<endl;
 			cin>>pid>>b>>a;
@@ -112,9 +118,9 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<"Pid   Time Quantum   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid   Time Quantum   Burst Time   Waiting Time   Turn Around Time"<<endl;
 		
-		
+		//reading output from server after algo is executed.
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<r[i].pid<<endl;
@@ -128,7 +134,7 @@ int main(){
 		case 4: cout<<"Enter no. of process."<<endl;
 		cin>>n;
 		write(serv_fd,&n,sizeof(n));
-		
+		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			cout<<"Enter process pid,Burst TIme,Arrival TIme."<<endl;
 			cin>>pid>>b>>a;
@@ -136,7 +142,8 @@ int main(){
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
-		cout<<"Pid   Arrival Time   Brust Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid   Arrival Time   Burst Time   Waiting Time   Turn Around Time"<<endl;
+		//reading output from server after algo is executed
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		//cout<<s[i].pid<<endl;
@@ -152,27 +159,29 @@ int main(){
 		cout<<"Enter no. of process and Time Quantum."<<endl;
 		cin>>n;
 		cin>>tq;
-		//write(serv_fd,&n,sizeof(n));
-		fstream file1;
-		file1.open("dt.txt",ios::app);
 		
+		fstream file1;
+		
+		file1.open("dt.txt",ios::app);
+		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,Burst TIme,Arrival TIme,Priority."<<endl;
 			cin>>pid>>b>>a>>pr;
 			d[i].set(pid,a,b,5,pr,tq);
-			//write(serv_fd,&d[i],sizeof(d[i]));
+			;
 			string data;
 		
 		data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
-		//cout<<data<<endl;
+		
 
 
 		file1<<data<<endl;
 	
 		}
+		
 		file1.close();
 		
-
+		//calling all algo
 		struct process *q=fcfs();
 		struct process *r=priority();
 		struct process *s=rr();
@@ -201,6 +210,7 @@ int main(){
 		min=arr[i];
 		}
 		}
+		//Printing the best algo.
 		cout<<"Best algorithm for these processes: \n";
 		for(int i=0;i<4;i++){
 		if(arr[i]==min){
@@ -229,9 +239,8 @@ int main(){
 	}
 	}
 	
-/*	read(serv_fd,&ch,5);
-	cout<<"from server:"<<ch<< endl;
-*/
+
+
 if(close(serv_fd)==-1){
 	perror("socket close");
 		exit(1);

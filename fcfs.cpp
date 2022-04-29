@@ -35,7 +35,9 @@ struct process* fcfs()//Structure contains FCFS scheduler
 string st,BurstTime,pid,ArrivalTime;
 int flag=0,k,j=0;
 fstream file1;
+
 file1.open("dt.txt",ios::in);
+		
 //hear we are opening the file dt.txt in read mode
 struct process *p=new struct process[10];
 //we are fetching each line of dt.txt file for storing Arrival Time Brust Time
@@ -79,7 +81,9 @@ j++;
 flag=0;
 }
 
+
 file1.close();
+		
 //close
 
 
