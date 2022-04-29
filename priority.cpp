@@ -10,31 +10,28 @@ using namespace std;
 #include<errno.h>
 #include "class.h"
 
-
-
 struct process* priority()
 {
 
 string st,BurstTime,pid,ArrivalTime,Priority;
 int flag=0,k,j=0;
 fstream file1;
+//we have open the file in the read mode below
 file1.open("dt.txt",ios::in);
-//struct process* p = (process*)calloc(10,sizeof(struct process));
-//struct process p[10];
+//a structure pointer object in made below with .
 struct process *p=new struct process[10];
 //struct process *p;
+//from the next line it will collect the data from each line .
 while(getline(file1,st)){
-//cout<<st<<endl;
+//in each line file conatin the processid ,arrival time and burst time
 for(int i=0;i<st.size();i++)
 {
-
 
 if(st[i]==','){
 
 flag++;
 
 }
-
 
 else if(flag==1){
 
@@ -57,7 +54,7 @@ Priority+=st[i];
 
 }
 }
-//cout<<"pid:"<<pid;
+//below lines stores the data in the process structure define in the class.h file 
 p[j].pid=stoi(pid);
 p[j].ArrivalTime=stoi(ArrivalTime);
 p[j].BurstTime=stoi(BurstTime);
@@ -69,7 +66,7 @@ Priority.clear();
 j++;
 flag=0;
 }
-//cout<<p[0].pid<<"mila"<<endl;
+//closer of file "dt.txt" .since all the data related to the process has been stored in the process structure define in  class.h 
 file1.close();
 
     int temp1,temp2,temp3;
@@ -95,7 +92,8 @@ for(int m=0;m<j;m++)
         }
     }
 }
-
+//time quantum is used to  store the data no any specific uses related to the process 
+//waiting time is calculated below
 p[0].TimeQuantum=p[0].ArrivalTime;
 p[0].WaitingTime=0;
 for(int i=1;i<j;i++)
@@ -108,13 +106,8 @@ p[i].WaitingTime=p[i].TimeQuantum-p[i].ArrivalTime;
 	p[i].WaitingTime=0;
 	}
 }
-for(int i=0;i<j;i++)
-{
-    p[i].Priority;
-    p[i].BurstTime;
-    p[i].ComplitionTime;
-    p[i].pid;
-}
+
+//turn around time is calculated below
 for(int i=0;i<j;i++)
 {
     p[i].TurnAroundTime=p[i].BurstTime+p[i].WaitingTime;
@@ -130,18 +123,7 @@ for(int i=1;i<j;i++)
    p[i].StartTime=p[i-1].ComplitionTime;
    p[i].ComplitionTime=p[i].StartTime+p[i].TurnAroundTime-p[i].WaitingTime;
 }
-//cout<<" processid  Priority  Arrival Time   Completion Time   Burst Time    Waiting Time    Turn Around Time "<<endl;
-/*for(int i=0;i<j;i++)
-{
-    cout<<" "<<p[i].pid<<"\t  "<<p[i].Priority<<"\t  "<<p[i].ArrivalTime<<"\t "<<p[i].ComplitionTime<<"\t"<<p[i].BurstTime<<"\t\t  "<<p[i].WaitingTime<<"\t\t  "<<p[i].TurnAroundTime<<endl;
-}
-//p[4].awt1=sumwt/n;
-//p[4].atat1=sumtat/n;
-cout<<"Total waiting time: "<<sumwt<<endl;
-cout<<"Average waiting time: "<<sumwt/j<<endl;
-cout<<"Total turm around time : "<<sumtat<<endl;
-cout<<"Average turn around time: "<<sumtat/j<<endl;
-*/
+
     return p;
 }
 
