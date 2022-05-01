@@ -1,17 +1,25 @@
+BIN=../bin
+OBJ=../obj
+HEADER=../header
 
-serv: server.cpp fcfs.o rr.o priority.o sjf.o
-	g++ -o serv server.cpp fcfs.o rr.o priority.o sjf.o
+
+
+$(BIN)/serv: server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
+	g++ -o $(BIN)/serv server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 
 
 
-fcfs.o: fcfs.cpp class.h
+$(OBJ)/fcfs.o: fcfs.cpp $(HEADER)/class.h
 	g++ -c fcfs.cpp
-	
-rr.o: rr.cpp class.h
+	mv -f *.o $(OBJ)/
+$(OBJ)/rr.o: rr.cpp $(HEADER)/class.h
 	g++ -c rr.cpp
-	
-priority.o: priority.cpp class.h
+	mv -f *.o $(OBJ)/
+$(OBJ)/priority.o: priority.cpp $(HEADER)/class.h
 	     g++ -c priority.cpp
-	     
-sjf.o: sjf.cpp class.h
+	     mv -f *.o $(OBJ)/
+$(OBJ)/sjf.o: sjf.cpp $(HEADER)/class.h
 	g++ -c sjf.cpp
+	mv -f *.o $(OBJ)/
+	
+

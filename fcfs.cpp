@@ -8,7 +8,7 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "class.h"
+#include "../header/class.h"
 #include <algorithm>
 #include <iomanip>
 
@@ -36,7 +36,7 @@ string st,BurstTime,pid,ArrivalTime;
 int flag=0,k,j=0;
 fstream file1;
 
-file1.open("dt.txt",ios::in);
+file1.open("../data/dt.txt",ios::in);
 		
 //hear we are opening the file dt.txt in read mode
 struct process *p=new struct process[10];

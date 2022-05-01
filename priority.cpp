@@ -8,7 +8,7 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "class.h"
+#include "../header/class.h"
 
 struct process* priority()
 {
@@ -18,7 +18,7 @@ int flag=0,k,j=0;
 fstream file1;
 //we have open the file in the read mode below
 
-file1.open("dt.txt",ios::in);
+file1.open("../data/dt.txt",ios::in);
 		
 //a structure pointer object in made below with .
 struct process *p=new struct process[10];

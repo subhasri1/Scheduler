@@ -8,20 +8,23 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "class.h"
+#include "../header/class.h"
 
 #define size 100
 
 int main(){
 	
+	ofstream fout;
+	fout.open("../bin/server.log",ios::app);
 	//Making server socket.
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	
 	if(serv_fd == -1)
-	{
+	{	fout<<"socket created error"<<endl;
 		perror("Socket creation error");
 		exit(1);
 	}
+	
 	//Storing server info in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
@@ -60,7 +63,7 @@ if(n!=0){
 details d[n];
 fstream file1;
 //opening text file to store process info.
-file1.open("dt.txt",ios::app);
+file1.open("../data/dt.txt",ios::app);
 //reading every process data from client and storing it into a file.		
 for(int i=0;i<n;i++){
 read(client_fd,&d[i],sizeof(d[i]));
@@ -136,11 +139,15 @@ break;
 } 
 
 }
+
 //closing socket.
 if(close(serv_fd)==-1){
+	
 	perror("socket close");
 		exit(1);
 		}
 
+fout.close();
 		}
+
 

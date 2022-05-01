@@ -1,0 +1,101 @@
+fcfs.cpp:93:19: style: Variable 'sum_tat' is assigned a value that is never used. [unreadVariable]
+    float sum_tat = 0, sum_wt = 0, sum_rt = 0;
+                  ^
+fcfs.cpp:93:31: style: Variable 'sum_wt' is assigned a value that is never used. [unreadVariable]
+    float sum_tat = 0, sum_wt = 0, sum_rt = 0;
+                              ^
+fcfs.cpp:93:43: style: Variable 'sum_rt' is assigned a value that is never used. [unreadVariable]
+    float sum_tat = 0, sum_wt = 0, sum_rt = 0;
+                                          ^
+fcfs.cpp:94:39: style: Variable 'total_idle_time' is assigned a value that is never used. [unreadVariable]
+    int length_cycle, total_idle_time = 0;
+                                      ^
+fcfs.cpp:108:17: style: Variable 'sum_tat' is assigned a value that is never used. [unreadVariable]
+        sum_tat += p[i].TurnAroundTime;
+                ^
+fcfs.cpp:109:16: style: Variable 'sum_wt' is assigned a value that is never used. [unreadVariable]
+        sum_wt += p[i].WaitingTime;
+               ^
+fcfs.cpp:110:16: style: Variable 'sum_rt' is assigned a value that is never used. [unreadVariable]
+        sum_rt += p[i].ResponseTime;
+               ^
+fcfs.cpp:111:25: style: Variable 'total_idle_time' is assigned a value that is never used. [unreadVariable]
+        total_idle_time += (i == 0) ? 0 : (p[i].StartTime - p[i - 1].ComplitionTime);
+                        ^
+fcfs.cpp:113:18: style: Variable 'length_cycle' is assigned a value that is never used. [unreadVariable]
+    length_cycle = p[j - 1].ComplitionTime - p[0].StartTime;
+                 ^
+fcfs.cpp:36:12: style: Unused variable: k [unusedVariable]
+int flag=0,k,j=0;
+           ^
+priority.cpp:77:17: style: Variable 'sumtat' is assigned a value that is never used. [unreadVariable]
+    float sumtat=0.0,sumwt=0.0;
+                ^
+priority.cpp:77:27: style: Variable 'sumwt' is assigned a value that is never used. [unreadVariable]
+    float sumtat=0.0,sumwt=0.0;
+                          ^
+priority.cpp:119:11: style: Variable 'sumtat' is assigned a value that is never used. [unreadVariable]
+    sumtat+=p[i].TurnAroundTime;
+          ^
+priority.cpp:120:10: style: Variable 'sumwt' is assigned a value that is never used. [unreadVariable]
+    sumwt+=p[i].WaitingTime;
+         ^
+priority.cpp:17:12: style: Unused variable: k [unusedVariable]
+int flag=0,k,j=0;
+           ^
+rr.cpp:72:31: style: The scope of the variable 'change' can be reduced. [variableScope]
+    int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
+                              ^
+rr.cpp:73:30: style: Variable 'total_WaitingTime' is assigned a value that is never used. [unreadVariable]
+    double total_WaitingTime = 0.0;
+                             ^
+rr.cpp:74:33: style: Variable 'total_TurnAroundTime' is assigned a value that is never used. [unreadVariable]
+    double total_TurnAroundTime = 0.0;
+                                ^
+rr.cpp:100:39: style: Variable 'total_WaitingTime' is assigned a value that is never used. [unreadVariable]
+                    total_WaitingTime += p[i].WaitingTime;
+                                      ^
+rr.cpp:101:42: style: Variable 'total_TurnAroundTime' is assigned a value that is never used. [unreadVariable]
+                    total_TurnAroundTime += p[i].TurnAroundTime;
+                                         ^
+rr.cpp:20:19: style: Unused variable: k [unusedVariable]
+    int flag = 0, k, j = 0;
+                  ^
+rr.cpp:72:39: style: Unused variable: WaitingTime [unusedVariable]
+    int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
+                                      ^
+rr.cpp:72:52: style: Unused variable: ComplitionTime [unusedVariable]
+    int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
+                                                   ^
+rr.cpp:72:68: style: Unused variable: bt_remaining [unusedVariable]
+    int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
+                                                                   ^
+sjf.cpp:81:11: style: The scope of the variable 'cpu_utilization' can be reduced. [variableScope]
+    float cpu_utilization;
+          ^
+sjf.cpp:80:27: style: Variable 'sum_TurnAroundTime' is assigned a value that is never used. [unreadVariable]
+    int sum_TurnAroundTime=0,sum_WaitingTime=0,sum_ResponseTime=0,total_idle_time=0,prev=0,length_cycle;
+                          ^
+sjf.cpp:80:45: style: Variable 'sum_WaitingTime' is assigned a value that is never used. [unreadVariable]
+    int sum_TurnAroundTime=0,sum_WaitingTime=0,sum_ResponseTime=0,total_idle_time=0,prev=0,length_cycle;
+                                            ^
+sjf.cpp:80:64: style: Variable 'sum_ResponseTime' is assigned a value that is never used. [unreadVariable]
+    int sum_TurnAroundTime=0,sum_WaitingTime=0,sum_ResponseTime=0,total_idle_time=0,prev=0,length_cycle;
+                                                               ^
+sjf.cpp:133:28: style: Variable 'sum_TurnAroundTime' is assigned a value that is never used. [unreadVariable]
+        sum_TurnAroundTime +=p[min_index].TurnAroundTime;
+                           ^
+sjf.cpp:134:25: style: Variable 'sum_WaitingTime' is assigned a value that is never used. [unreadVariable]
+        sum_WaitingTime += p[min_index].WaitingTime;
+                        ^
+sjf.cpp:135:26: style: Variable 'sum_ResponseTime' is assigned a value that is never used. [unreadVariable]
+        sum_ResponseTime += p[min_index].ResponseTime;
+                         ^
+sjf.cpp:162:21: style: Variable 'cpu_utilization' is assigned a value that is never used. [unreadVariable]
+    cpu_utilization = (float)(length_cycle - total_idle_time)/ length_cycle;
+                    ^
+sjf.cpp:19:12: style: Unused variable: k [unusedVariable]
+int flag=0,k,j=0;
+           ^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingIncludeSystem]
+

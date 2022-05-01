@@ -8,7 +8,7 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "class.h"
+#include "../header/class.h"
 #include<vector>
 
 #define size 100
@@ -38,7 +38,7 @@ int main(){
 	while(l){
 	fstream file;
 	
-	file.open("dt.txt",ios::out|ios::trunc);
+	file.open("../data/dt.txt",ios::out|ios::trunc);
 		
 
 		
@@ -162,7 +162,7 @@ int main(){
 		
 		fstream file1;
 		
-		file1.open("dt.txt",ios::app);
+		file1.open("../data/dt.txt",ios::app);
 		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			cout<<"enter process pid,Burst TIme,Arrival TIme,Priority."<<endl;
