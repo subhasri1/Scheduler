@@ -3,6 +3,7 @@
 
 //using namespace std;
 
+
 class details{
 public:
 int Pid,ArrivalTime,BurstTime,ProcessType,Priority,TimeQuantum;
@@ -26,8 +27,10 @@ struct process* priority();
 struct process* rr();
 struct process* sjf();
 
+/*
+void sighandler(int signum){
 
-
+}*/
 
 
 
