@@ -8,21 +8,33 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "../header/class.h"
+#include "../inc/class.h"
 #include<vector>
-
+#include<signal.h>
+fstream fout;
 #define size 100
+
+void sighandler(int signum){
+ fout<<"Termination signal received";
+ fout.close();
+ exit(1);
+}
 
 //client send a process information to server.
 int main(){
+	fstream fout1;
+	fout1.open("../bin/client_log.txt",ios::out|ios::trunc);
+	fout1.clear();
+	fout.open("../bin/client_log.txt",ios::app);
+	signal(SIGINT,sighandler);
 	int l=1;
 	//Making a client socket
 	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
 	if(serv_fd == -1)
-	{
+	{	fout<<"Socket creation error."<<endl;
 		perror("socket creation error");
 		exit(1);
-	}
+	}fout<<"Socket generated."<<endl;
 	//server information stored in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
@@ -32,9 +44,11 @@ int main(){
 	socklen_t len = sizeof(sock_addr_serv);
 	//connecting client socket and server.
 	if(connect(serv_fd,(struct sockaddr *)&sock_addr_serv,len)==-1){
+		fout<<"socket connect error"<<endl;
 		perror("connect error");
 		exit(1);
 }	
+	fout<<"Socket connection established."<<endl;
 	while(l){
 	fstream file;
 	
@@ -50,7 +64,7 @@ int main(){
 	
 	details d[size];
 	struct process p[size];
-	
+	fout<<"Switch case running."<<endl;
 	//Switch for different features.
 	switch(k){
 	case 0: l=0;
@@ -181,7 +195,7 @@ int main(){
 		
 		file1.close();
 		
-		//calling all algo
+		//calling all algorithms
 		struct process *q=fcfs();
 		struct process *r=priority();
 		struct process *s=rr();
@@ -242,8 +256,11 @@ int main(){
 
 
 if(close(serv_fd)==-1){
+	fout<<"Socket Close Error."<<endl;
 	perror("socket close");
 		exit(1);
 		}
+		fout<<"Socket closed."<<endl;
+		fout.close();
 		}
 

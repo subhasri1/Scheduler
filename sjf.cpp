@@ -8,10 +8,11 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "../header/class.h"
+#include "../inc/class.h"
 #include <algorithm>
 #include <climits>
 #include <iomanip>
+#define MAX 100
 struct process* sjf()
 {
 //int j,BurstTime[20],WaitingTime[20],TurnAroundTime[20],avwt=0,avtArrivalTime=0,i,j,arrival[20],ComplitionTime[20],ResponseTime[20];
@@ -21,7 +22,7 @@ fstream file1;
 file1.open("../data/dt.txt",ios::in);
 //struct process* p = (process*)calloc(10,sizeof(struct process));
 //struct process p[10];
-struct process *p=new struct process[10];
+struct process *p=new struct process[MAX];
 //struct process *p;
 while(getline(file1,st)){
 //cout<<st<<endl;

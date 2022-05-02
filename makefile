@@ -1,35 +1,27 @@
 BIN=../bin
 OBJ=../obj
 INC=../inc
-SRC=../src
-CC=g++
 
-$(BIN)/serv: $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
-	$(CC) -o $(BIN)/serv $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
-
-$(BIN)/cli: $(SRC)/client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
-	$(CC) -o $(BIN)/cli $(SRC)/client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
+$(BIN)/cli: client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
+	g++ -o $(BIN)/cli client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 
 
-
-	
-
-	
+$(BIN)/serv: server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
+	g++ -o $(BIN)/serv server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 
 
 
-$(OBJ)/fcfs.o: $(SRC)/fcfs.cpp $(INC)/class.h
-	$(CC) -c $(SRC)/fcfs.cpp
+$(OBJ)/fcfs.o: fcfs.cpp $(INC)/class.h
+	g++ -c fcfs.cpp
 	mv -f *.o $(OBJ)/
-$(OBJ)/rr.o: $(SRC)/rr.cpp $(INC)/class.h
-	$(CC) -c $(SRC)/rr.cpp
+$(OBJ)/rr.o: rr.cpp $(INC)/class.h
+	g++ -c rr.cpp
 	mv -f *.o $(OBJ)/
-$(OBJ)/priority.o: $(SRC)/priority.cpp $(INC)/class.h
-	     $(CC) -c $(SRC)/priority.cpp
+$(OBJ)/priority.o: priority.cpp $(INC)/class.h
+	     g++ -c priority.cpp
 	     mv -f *.o $(OBJ)/
-$(OBJ)/sjf.o: $(SRC)/sjf.cpp $(INC)/class.h
-	$(CC) -c $(SRC)/sjf.cpp
+$(OBJ)/sjf.o: sjf.cpp $(INC)/class.h
+	g++ -c sjf.cpp
 	mv -f *.o $(OBJ)/
-
 	
 

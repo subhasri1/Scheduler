@@ -8,9 +8,10 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "../header/class.h"
+#include "../inc/class.h"
 #include <algorithm>
 #include <iomanip>
+#define MAX 100
 
 
 bool comparisonAT(struct process a, struct process b)//Compare Arrival Time
@@ -39,7 +40,7 @@ fstream file1;
 file1.open("../data/dt.txt",ios::in);
 		
 //hear we are opening the file dt.txt in read mode
-struct process *p=new struct process[10];
+struct process *p=new struct process[MAX];
 //we are fetching each line of dt.txt file for storing Arrival Time Brust Time
 while(getline(file1,st)){
 
@@ -116,4 +117,6 @@ file1.close();
 
 
     return p;
-}
+    }
+    
+    

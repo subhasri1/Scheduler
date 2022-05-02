@@ -10,7 +10,8 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "../header/class.h"
+#include "../inc/class.h"
+#define max 100
 
 using namespace std;
 
@@ -24,7 +25,7 @@ struct process *rr()
 		
     // struct process* p = (process*)calloc(10,sizeof(struct process));
     // struct process p[10];
-    struct process *p = new struct process[10];
+    struct process *p = new struct process[max];
     // struct process *p;
     while (getline(file1, st))
     {

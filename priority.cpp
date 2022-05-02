@@ -8,7 +8,8 @@ using namespace std;
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<errno.h>
-#include "../header/class.h"
+#include "../inc/class.h"
+#define max 100
 
 struct process* priority()
 {
@@ -21,7 +22,7 @@ fstream file1;
 file1.open("../data/dt.txt",ios::in);
 		
 //a structure pointer object in made below with .
-struct process *p=new struct process[10];
+struct process *p=new struct process[max];
 //struct process *p;
 //from the next line it will collect the data from each line .
 while(getline(file1,st)){
