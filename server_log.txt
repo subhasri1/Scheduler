@@ -2,4 +2,4 @@ socket generated
 socket Binded successfully
 socket listning
 socket accept
-Termination signal received
+socket closed

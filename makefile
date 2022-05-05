@@ -4,6 +4,8 @@ INC=../inc
 SRC=../src
 CC=g++
 
+all: $(BIN)/serv $(BIN)/cli
+
 $(BIN)/serv: $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
 	$(CC) -o $(BIN)/serv $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 

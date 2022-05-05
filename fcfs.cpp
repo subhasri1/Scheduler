@@ -39,7 +39,7 @@ fstream file1;
 
 file1.open("../data/dt.txt",ios::in);
 		
-//hear we are opening the file dt.txt in read mode
+//here we are opening the file dt.txt in read mode
 struct process *p=new struct process[MAX];
 //we are fetching each line of dt.txt file for storing Arrival Time Brust Time
 while(getline(file1,st)){

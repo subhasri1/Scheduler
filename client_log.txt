@@ -1,3 +1,7 @@
 Socket generated.
 Socket connection established.
-Termination signal received
+Switch case running.
+Switch case running.
+Switch case running.
+Switch case running.
+Socket closed.

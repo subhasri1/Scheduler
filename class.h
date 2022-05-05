@@ -22,6 +22,9 @@ struct process{
 int pid,processtype,BurstTime,ArrivalTime,Priority,TimeQuantum,WaitingTime,TurnAroundTime,ComplitionTime,bt_remaining,StartTime,ResponseTime;
 };
 
+bool comparisonAT(struct process , struct process );
+bool comparisonPID(struct process, struct process);
+
 struct process* fcfs();
 struct process* priority();
 struct process* rr();
