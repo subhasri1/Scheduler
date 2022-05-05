@@ -17,19 +17,20 @@ using namespace std;
 
 struct process *rr()
 {
-    // int n,bt[20],wt[20],tat[20],avwt=0,avtat=0,i,j,arrival[20],ct[20],rt[20];
+    // defining variables
     string st, BurstTime, pid, ArrivalTime, TimeQuantum;
     int flag = 0, k, j = 0;
+    // fstream opens the file
     fstream file1;
-    file1.open("../data/dt.txt",ios::in);
-		
-    // struct process* p = (process*)calloc(10,sizeof(struct process));
-    // struct process p[10];
+    // dt.txt is opened in read mode to get the data
+    file1.open("../data/dt.txt", ios::in);
+
+    // max is a macro
     struct process *p = new struct process[max];
-    // struct process *p;
+    // getline is used to read string from a source file
     while (getline(file1, st))
     {
-        // cout<<st<<endl;
+        // flags are set so ',' is not taken as input and we get only the data
         for (int i = 0; i < st.size(); i++)
         {
             if (st[i] == ',')
@@ -53,12 +54,13 @@ struct process *rr()
                 TimeQuantum += st[i];
             }
         }
-
+        // stoi is used to convert string to int for calculations
         p[j].pid = stoi(pid);
         p[j].ArrivalTime = stoi(ArrivalTime);
         p[j].BurstTime = stoi(BurstTime);
         p[j].TimeQuantum = stoi(TimeQuantum);
 
+        // file is cleared after we took all the input required
         pid.clear();
         ArrivalTime.clear();
         BurstTime.clear();
@@ -66,45 +68,45 @@ struct process *rr()
         j++;
         flag = 0;
     }
-    
+    // we close the file
     file1.close();
-		
+    // here we define tq(time quantum)
     int tq = p[0].TimeQuantum;
-    
-    int complete,current_time,change, WaitingTime, ComplitionTime, bt_remaining;
+
+    int complete, current_time, change, WaitingTime, ComplitionTime, bt_remaining;
     double total_WaitingTime = 0.0;
     double total_TurnAroundTime = 0.0;
-  //cout<<"While ke ppehle tq:"<<tq<<endl;
-    for(int i=0; i<j; i++)
+
+    // here we set bt remaining as their original bt before the calculations start
+    for (int i = 0; i < j; i++)
         p[i].bt_remaining = p[i].BurstTime;
 
     complete = 0;
     current_time = 0;
-    
-    
- 
-    while(complete < j)
+
+    while (complete < j) // while completed processes are not equals to the number of processes
     {
-        change = 0;
-        for(int i=0; i<j; i++)
+        change = 0; // change is set to 0 at the start and will increment with the loop
+        for (int i = 0; i < j; i++)
         {
-            if(p[i].ArrivalTime <= current_time && p[i].bt_remaining > 0)
+            if (p[i].ArrivalTime <= current_time && p[i].bt_remaining > 0)
             {
-                if(p[i].bt_remaining <= tq)
+                if (p[i].bt_remaining <= tq) //~~~~if bt rem <= tq means the process will complete in this run
                 {
-                    complete++;
+                    complete++; // hence complete is incremented
                     current_time += p[i].bt_remaining;
- 
+
+                    // calculations regarding the variable updates
                     p[i].ComplitionTime = current_time;
                     p[i].TurnAroundTime = p[i].ComplitionTime - p[i].ArrivalTime;
                     p[i].WaitingTime = p[i].TurnAroundTime - p[i].BurstTime;
- 
+
                     total_WaitingTime += p[i].WaitingTime;
                     total_TurnAroundTime += p[i].TurnAroundTime;
- 
+
                     p[i].bt_remaining = 0;
                 }
-                else
+                else //~~~~else if bt rem > tq means the process will run again
                 {
                     current_time += tq;
                     p[i].bt_remaining -= tq;
@@ -112,15 +114,11 @@ struct process *rr()
                 change++;
             }
         }
-        if(change == 0)
+        if (change == 0)
         {
             current_time++;
         }
     }
-    //cout<<fixed<<setprecision(2);
-    //cout<<"Average Waiting Time: "<<(total_WaitingTime/j)<<"\n";
-    //cout<<"Average Turn Around Time: "<<(total_TurnAroundTime/j)<<"\n";
-    //cout<<"Number of processes are: "<<j<<endl;
-    
+
     return p;
 }
