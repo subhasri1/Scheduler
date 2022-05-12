@@ -74,7 +74,7 @@ flag=0;
 file1.close();
 		
 
-    int temp1,temp2,temp3;
+    int temp1,temp2,temp3,temp4;
     float sumtat=0.0,sumwt=0.0;
 
 //sorting base on priority
@@ -93,6 +93,9 @@ for(int m=0;m<j;m++)
             temp3=p[m].pid;
             p[m].pid=p[n].pid;
             p[n].pid=temp3;
+           temp4=p[m].ArrivalTime;
+		p[m].ArrivalTime=p[n].ArrivalTime;
+		p[n].ArrivalTime=temp4;
             
         }
     }
