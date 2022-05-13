@@ -1,3 +1,4 @@
+//Function to Implement Priority algorithm.
 #include <iostream>
 #include<fstream>
 #include<sys/types.h>

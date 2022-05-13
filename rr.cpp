@@ -1,3 +1,4 @@
+//Function to Implement Round Robin algorithm.
 #include <iostream>
 #include <fstream>
 #include <queue>
@@ -16,7 +17,7 @@
 using namespace std;
 
 struct process *rr()
-{
+{   
     // defining variables
     string st, BurstTime, pid, ArrivalTime, TimeQuantum;
     int flag = 0, k, j = 0;
@@ -70,6 +71,7 @@ struct process *rr()
     }
     // we close the file
     file1.close();
+    
     // here we define tq(time quantum)
     int tq = p[0].TimeQuantum;
 
@@ -110,6 +112,7 @@ struct process *rr()
                 {
                     current_time += tq;
                     p[i].bt_remaining -= tq;
+                    
                 }
                 change++;
             }
@@ -119,6 +122,7 @@ struct process *rr()
             current_time++;
         }
     }
+   
 
     return p;
 }

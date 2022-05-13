@@ -1,0 +1,270 @@
+        -:    0:Source:../src/client.cpp
+        -:    0:Graph:client.gcno
+        -:    0:Data:client.gcda
+        -:    0:Runs:2
+        -:    1:#include<iostream>
+        -:    2:#include<sys/types.h>
+        -:    3:#include<fstream>
+        -:    4:using namespace std;
+        -:    5:#include<sys/socket.h>
+        -:    6:#include<netinet/in.h>
+        -:    7:#include<unistd.h>
+        -:    8:#include<arpa/inet.h>
+        -:    9:#include<stdlib.h>
+        -:   10:#include<errno.h>
+        -:   11:#include "../inc/class.h"
+        -:   12:#include<vector>
+        -:   13:#include<signal.h>
+        -:   14:fstream fout;
+        -:   15:#define size 100
+        -:   16:
+    #####:   17:void sighandler(int signum){
+    #####:   18: fout<<"Termination signal received";
+    #####:   19: fout.close();
+    #####:   20: exit(1);
+        -:   21:}
+        -:   22:
+        -:   23://client send a process information to server.
+        2:   24:int main(){
+        3:   25:	fstream fout1;
+        2:   26:	fout1.open("../bin/client_log.txt",ios::out|ios::trunc);
+        2:   27:	fout1.clear();
+        2:   28:	fout.open("../bin/client_log.txt",ios::app);
+        2:   29:	signal(SIGINT,sighandler);
+        2:   30:	int l=1;
+        -:   31:	//Making a client socket
+        2:   32:	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
+        2:   33:	if(serv_fd == -1)
+    #####:   34:	{	fout<<"Socket creation error."<<endl;
+    #####:   35:		perror("socket creation error");
+    #####:   36:		exit(1);
+        2:   37:	}fout<<"Socket generated."<<endl;
+        -:   38:	//server information stored in a structure.
+        -:   39:	struct sockaddr_in sock_addr_serv;
+        2:   40:	sock_addr_serv.sin_family = AF_INET;
+        2:   41:	sock_addr_serv.sin_port = 9955;
+        2:   42:	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
+        -:   43:
+        2:   44:	socklen_t len = sizeof(sock_addr_serv);
+        -:   45:	//connecting client socket and server.
+        2:   46:	if(connect(serv_fd,(struct sockaddr *)&sock_addr_serv,len)==-1){
+        1:   47:		fout<<"socket connect error"<<endl;
+        1:   48:		perror("connect error");
+        1:   49:		exit(1);
+        -:   50:}	
+        1:   51:	fout<<"Socket connection established."<<endl;
+        2:   52:	while(l){
+        2:   53:	fstream file;
+        -:   54:	
+        1:   55:	file.open("../data/dt.txt",ios::out|ios::trunc);
+        -:   56:		
+        -:   57:
+        -:   58:		
+        1:   59:	file.close();
+        -:   60:	//Taking input of process user want to run.	
+        1:   61:	cout<<"Press 1 for fcfs algorithm.\nPress 2 for priority algorithm.\nPress 3 for round robin algorithm.\nPress 4 for shortest job first algorithm.\nPress 5 for Comparing all algorithms.\nPress 0 for exit.\n";
+        1:   62:	int k,pid,a,b,pr,n=0,tq;
+        1:   63:	cin>>k;
+        -:   64:	
+        -:   65:	details d[size];
+        -:   66:	struct process p[size];
+        1:   67:	fout<<"Switch case running."<<endl;
+        -:   68:	//Switch for different features.
+        1:   69:	switch(k){
+        1:   70:	case 0: l=0;
+        -:   71:	
+        1:   72:	write(serv_fd,&n,sizeof(n));
+        1:   73:		break;
+        -:   74:	
+    #####:   75:	case 1: cout<<"Enter no. of process."<<endl;
+    #####:   76:		cin>>n;
+    #####:   77:		write(serv_fd,&n,sizeof(n));
+        -:   78:		//Input info of different processes.
+    #####:   79:		for(int i=0;i<n;i++){
+        -:   80:			
+    #####:   81:			cout<<"Enter process pid,Brust TIme,Arrival TIme"<<endl;
+    #####:   82:			cin>>pid>>b>>a;
+    #####:   83:			d[i].set(pid,a,b,1,0,0);
+    #####:   84:			write(serv_fd,&d[i],sizeof(d[i]));
+        -:   85:	
+        -:   86:		}
+    #####:   87:		cout<<"Pid  Arrival Time  Burst Time  Complition Time  Waiting Time  Turn Around Time"<<endl;
+        -:   88:		//reading output from server after algo is executed
+    #####:   89:		for(int i=0;i<n;i++){
+        -:   90:		
+    #####:   91:		read(serv_fd,&p[i],sizeof(p[i]));
+    #####:   92:		cout<<p[i].pid<<"\t  "<<p[i].ArrivalTime<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].ComplitionTime<<"\t   "<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
+        -:   93:		
+        -:   94:		}
+        -:   95:		
+        -:   96:		
+    #####:   97:		break;
+        -:   98:		
+    #####:   99:	case 2: cout<<"Enter no. of process."<<endl;
+    #####:  100:		cin>>n;
+    #####:  101:		write(serv_fd,&n,sizeof(n));
+        -:  102:		//Input info of different processes.
+    #####:  103:		for(int i=0;i<n;i++){
+    #####:  104:			cout<<"Enter process pid,Brust Time,Arrival TIme,Priority."<<endl;
+    #####:  105:			cin>>pid>>b>>a>>pr;
+    #####:  106:			d[i].set(pid,a,b,2,pr,0);
+    #####:  107:			write(serv_fd,&d[i],sizeof(d[i]));
+        -:  108:	
+        -:  109:		}
+        -:  110:		
+    #####:  111:		cout<<"Pid   priority   Burst Time   Waiting Time   Turn Around Time"<<endl;
+        -:  112:		
+        -:  113:		//reading output from server after algo is executed
+    #####:  114:		for(int i=0;i<n;i++){
+    #####:  115:		read(serv_fd,&p[i],sizeof(p[i]));
+        -:  116:		
+    #####:  117:		cout<<p[i].pid<<"\t  "<<p[i].Priority<<"\t\t  "<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
+        -:  118:		}
+        -:  119:		
+        -:  120:		
+        -:  121:		
+    #####:  122:		break;
+        -:  123:		
+    #####:  124:	case 3: cout<<"Enter no. of process and Time Quantum."<<endl;
+    #####:  125:		cin>>n>>tq;
+    #####:  126:		write(serv_fd,&n,sizeof(n));
+        -:  127:		//Input info of different processes.
+    #####:  128:		for(int i=0;i<n;i++){
+    #####:  129:			cout<<"Enter process pid,Burst TIme,Arrival TIme,Time Quantum."<<endl;
+    #####:  130:			cin>>pid>>b>>a;
+    #####:  131:			d[i].set(pid,a,b,3,0,tq);
+    #####:  132:			write(serv_fd,&d[i],sizeof(d[i]));
+        -:  133:	
+        -:  134:		}
+    #####:  135:		cout<<"Pid   Time Quantum   Burst Time   Waiting Time   Turn Around Time"<<endl;
+        -:  136:		
+        -:  137:		//reading output from server after algo is executed.
+    #####:  138:		for(int i=0;i<n;i++){
+    #####:  139:		read(serv_fd,&p[i],sizeof(p[i]));
+        -:  140:		//cout<<r[i].pid<<endl;
+    #####:  141:		cout<<p[i].pid<<"\t  "<<p[i].TimeQuantum<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
+        -:  142:		}
+        -:  143:		
+        -:  144:		
+        -:  145:		
+    #####:  146:		break;
+        -:  147:		
+    #####:  148:		case 4: cout<<"Enter no. of process."<<endl;
+    #####:  149:		cin>>n;
+    #####:  150:		write(serv_fd,&n,sizeof(n));
+        -:  151:		//Input info of different processes.
+    #####:  152:		for(int i=0;i<n;i++){
+    #####:  153:			cout<<"Enter process pid,Burst TIme,Arrival TIme."<<endl;
+    #####:  154:			cin>>pid>>b>>a;
+    #####:  155:			d[i].set(pid,a,b,4,0,0);
+    #####:  156:			write(serv_fd,&d[i],sizeof(d[i]));
+        -:  157:	
+        -:  158:		}
+    #####:  159:		cout<<"Pid   Arrival Time   Burst Time   Waiting Time   Turn Around Time"<<endl;
+        -:  160:		//reading output from server after algo is executed
+    #####:  161:		for(int i=0;i<n;i++){
+    #####:  162:		read(serv_fd,&p[i],sizeof(p[i]));
+        -:  163:		//cout<<s[i].pid<<endl;
+    #####:  164:		cout<<p[i].pid<<"\t  "<<p[i].ArrivalTime<<"\t\t"<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
+        -:  165:		}
+        -:  166:		
+        -:  167:		
+    #####:  168:		break;
+        -:  169:		
+    #####:  170:		case 5: 
+        -:  171:		
+        -:  172:		
+    #####:  173:		cout<<"Enter no. of process and Time Quantum."<<endl;
+    #####:  174:		cin>>n;
+    #####:  175:		cin>>tq;
+        -:  176:		
+    #####:  177:		fstream file1;
+        -:  178:		
+    #####:  179:		file1.open("../data/dt.txt",ios::app);
+        -:  180:		//Input info of different processes.
+    #####:  181:		for(int i=0;i<n;i++){
+    #####:  182:			cout<<"enter process pid,Burst TIme,Arrival TIme,Priority."<<endl;
+    #####:  183:			cin>>pid>>b>>a>>pr;
+    #####:  184:			d[i].set(pid,a,b,5,pr,tq);
+        -:  185:			;
+    #####:  186:			string data;
+        -:  187:		
+    #####:  188:		data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
+        -:  189:		
+        -:  190:
+        -:  191:
+    #####:  192:		file1<<data<<endl;
+        -:  193:	
+        -:  194:		}
+        -:  195:		
+    #####:  196:		file1.close();
+        -:  197:		
+        -:  198:		//calling all algorithms
+    #####:  199:		struct process *q=fcfs();
+    #####:  200:		struct process *r=priority();
+    #####:  201:		struct process *s=rr();
+        -:  202:
+    #####:  203:		struct process *t=sjf();
+        -:  204:
+    #####:  205:		int arr[4]={0,0,0,0};
+    #####:  206:		for(int i=0;i<n;i++){
+        -:  207:
+    #####:  208:		arr[0]+=q->WaitingTime;
+        -:  209:
+    #####:  210:		q++;
+    #####:  211:		arr[1]+=r->WaitingTime;
+        -:  212:
+    #####:  213:		r++;
+    #####:  214:		arr[2]+=s->WaitingTime;
+        -:  215:
+    #####:  216:		s++;
+    #####:  217:		arr[3]+=t->WaitingTime;
+        -:  218:
+    #####:  219:		t++;
+        -:  220:		}
+    #####:  221:		int min=arr[0];
+    #####:  222:		for(int i=1;i<4;i++){
+    #####:  223:		if(min<arr[i]){
+    #####:  224:		min=arr[i];
+        -:  225:		}
+        -:  226:		}
+        -:  227:		//Printing the best algo.
+    #####:  228:		cout<<"Best algorithm for these processes: \n";
+    #####:  229:		for(int i=0;i<4;i++){
+    #####:  230:		if(arr[i]==min){
+        -:  231:		switch(i){
+    #####:  232:		case(0):cout<<"-First Come First Serve Algorithm\n"<<endl;
+    #####:  233:			break;
+    #####:  234:		case(1):cout<<"-Priority Algorithm\n"<<endl;
+    #####:  235:			break;
+    #####:  236:		case(2):cout<<"-Round Robin Algorithm\n"<<endl;
+    #####:  237:			break;
+    #####:  238:		case(3):cout<<"-Shortest Job First Algorthm\n"<<endl;
+    #####:  239:			break;
+        -:  240:		}
+        -:  241:		}
+        -:  242:		}
+    #####:  243:		break;
+        -:  244:		
+        -:  245:
+        -:  246:
+        -:  247:		
+        -:  248:			
+        -:  249:		
+        -:  250:	
+        -:  251:	
+        -:  252:		
+        -:  253:	}
+        -:  254:	}
+        -:  255:	
+        -:  256:
+        -:  257:
+        1:  258:if(close(serv_fd)==-1){
+    #####:  259:	fout<<"Socket Close Error."<<endl;
+    #####:  260:	perror("socket close");
+    #####:  261:		exit(1);
+        -:  262:		}
+        1:  263:		fout<<"Socket closed."<<endl;
+        1:  264:		fout.close();
+        1:  265:		}
+        -:  266:

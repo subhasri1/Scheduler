@@ -1,3 +1,4 @@
+//Server side to connect to client and accept process data then store them into a file
 #include<iostream>
 #include<fstream>
 #include<sys/types.h>
@@ -13,7 +14,8 @@ using namespace std;
 fstream fout;
 
 #define size 100
-
+#define PORT 9955
+#define IP "127.0.0.1"
 void sighandler(int signum){
  fout<<"Termination signal received";
  fout.close();
@@ -38,8 +40,8 @@ int main(){
 	//Storing server info in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
-	sock_addr_serv.sin_port = 9955;
-	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sock_addr_serv.sin_port = htons(PORT);
+	sock_addr_serv.sin_addr.s_addr = inet_addr(IP);
 
 	//Binding struct with server structure.
 	if(bind(serv_fd,(struct sockaddr *)&sock_addr_serv,sizeof(sock_addr_serv))==-1)
@@ -165,5 +167,4 @@ if(close(serv_fd)==-1){
 
 fout.close();
 		}
-
 

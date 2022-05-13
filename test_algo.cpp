@@ -14,13 +14,15 @@ void AlgoTestCase::testfcfs(){
 ofstream file;
 file.open("../data/dt.txt");
 string s[]={"1,55,0,2,0,0","1,56,1,2,0,0","1,57,5,3,0,0","1,58,6,4,0,0"};
-for(int i=0;i<4;i++){
+struct process exp[]={{55,1,2,0,0,0,0,2,2,0,0,0},{56,1,2,1,0,0,1,3,4,0,0,1},{57,1,3,5,0,0,0,3,8,0,0,0},{58,1,4,6,0,0,2,6,12,0,0,2}};
+int length=sizeof(exp)/sizeof(struct process);
+for(int i=0;i<length;i++){
 file<<s[i]<<endl;
 }
 file.close();
-struct process exp[]={{55,1,2,0,0,0,0,2,2,0,0,0},{56,1,2,1,0,0,1,3,4,0,0,1},{57,1,3,5,0,0,0,3,8,0,0,0},{58,1,4,6,0,0,2,6,12,0,0,2}};
+
 struct process *ret=fcfs();
-int length=sizeof(exp)/sizeof(struct process);
+
 for(int i=0;i<length;i++){
 CPPUNIT_ASSERT(exp[i].WaitingTime==ret[i].WaitingTime);
 CPPUNIT_ASSERT(exp[i].TurnAroundTime==ret[i].TurnAroundTime);

@@ -1,3 +1,5 @@
+//client side to send a process informations to server.
+
 #include<iostream>
 #include<sys/types.h>
 #include<fstream>
@@ -13,6 +15,8 @@ using namespace std;
 #include<signal.h>
 fstream fout;
 #define size 100
+#define PORT 9955
+#define IP "127.0.0.1"
 
 void sighandler(int signum){
  fout<<"Termination signal received";
@@ -20,8 +24,9 @@ void sighandler(int signum){
  exit(1);
 }
 
-//client send a process information to server.
+
 int main(){
+	
 	fstream fout1;
 	fout1.open("../bin/client_log.txt",ios::out|ios::trunc);
 	fout1.clear();
@@ -38,8 +43,8 @@ int main(){
 	//server information stored in a structure.
 	struct sockaddr_in sock_addr_serv;
 	sock_addr_serv.sin_family = AF_INET;
-	sock_addr_serv.sin_port = 9955;
-	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sock_addr_serv.sin_port = htons(PORT);
+	sock_addr_serv.sin_addr.s_addr = inet_addr("IP");
 
 	socklen_t len = sizeof(sock_addr_serv);
 	//connecting client socket and server.
@@ -65,6 +70,7 @@ int main(){
 	details d[size];
 	struct process p[size];
 	fout<<"Switch case running."<<endl;
+	
 	//Switch for different features.
 	switch(k){
 	case 0: l=0;
@@ -78,7 +84,7 @@ int main(){
 		//Input info of different processes.
 		for(int i=0;i<n;i++){
 			
-			cout<<"Enter process pid,Brust TIme,Arrival TIme"<<endl;
+			cout<<"Enter process pid,Burst TIme,Arrival TIme"<<endl;
 			cin>>pid>>b>>a;
 			d[i].set(pid,a,b,1,0,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
@@ -101,20 +107,20 @@ int main(){
 		write(serv_fd,&n,sizeof(n));
 		//Input info of different processes.
 		for(int i=0;i<n;i++){
-			cout<<"Enter process pid,Brust Time,Arrival TIme,Priority."<<endl;
+			cout<<"Enter process pid,Burst Time,Arrival TIme,Priority."<<endl;
 			cin>>pid>>b>>a>>pr;
 			d[i].set(pid,a,b,2,pr,0);
 			write(serv_fd,&d[i],sizeof(d[i]));
 	
 		}
 		
-		cout<<"Pid   priority   Burst Time   Waiting Time   Turn Around Time"<<endl;
+		cout<<"Pid  priority  BurstTime  ArrivalTime  WaitingTime  TurnAroundTime  CompletionTime"<<endl;
 		
 		//reading output from server after algo is executed
 		for(int i=0;i<n;i++){
 		read(serv_fd,&p[i],sizeof(p[i]));
 		
-		cout<<p[i].pid<<"\t  "<<p[i].Priority<<"\t\t  "<<p[i].BurstTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<endl;
+		cout<<p[i].pid<<"\t"<<p[i].Priority<<"\t  "<<p[i].BurstTime<<"\t\t"<<p[i].ArrivalTime<<"\t\t"<<p[i].WaitingTime<<"\t\t"<<p[i].TurnAroundTime<<"\t"<<p[i].ComplitionTime<<endl;
 		}
 		
 		
@@ -176,6 +182,7 @@ int main(){
 		
 		fstream file1;
 		
+		
 		file1.open("../data/dt.txt",ios::app);
 		//Input info of different processes.
 		for(int i=0;i<n;i++){
@@ -195,14 +202,18 @@ int main(){
 		
 		file1.close();
 		
-		//calling all algorithms
 		struct process *q=fcfs();
 		struct process *r=priority();
 		struct process *s=rr();
 
 		struct process *t=sjf();
+		
+		
 
 		int arr[4]={0,0,0,0};
+		
+		//calling all algorithms
+		
 		for(int i=0;i<n;i++){
 
 		arr[0]+=q->WaitingTime;
@@ -218,6 +229,7 @@ int main(){
 
 		t++;
 		}
+		
 		int min=arr[0];
 		for(int i=1;i<4;i++){
 		if(min<arr[i]){
@@ -242,7 +254,12 @@ int main(){
 		}
 		break;
 		
-
+		
+	/*
+		default: 
+		cout<<"Invalid choice,please enter valid choice"<<endl;	
+		break;	*/
+		
 
 		
 			

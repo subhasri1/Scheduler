@@ -1,0 +1,43 @@
+        -:    0:Source:../inc/class.h
+        -:    0:Graph:client.gcno
+        -:    0:Data:client.gcda
+        -:    0:Runs:2
+        -:    1://#include<stdio.h>
+        -:    2://#include<iostream>
+        -:    3:
+        -:    4://using namespace std;
+        -:    5:
+        -:    6:
+        -:    7:class details{
+        -:    8:public:
+        -:    9:int Pid,ArrivalTime,BurstTime,ProcessType,Priority,TimeQuantum;
+    #####:   10:void set(int r,int s,int f,int t,int p,int q){
+    #####:   11:Pid=r;
+    #####:   12:ArrivalTime=s;
+    #####:   13:BurstTime=f;
+    #####:   14:ProcessType=t;
+    #####:   15:Priority=p;
+    #####:   16:TimeQuantum=q;
+    #####:   17:};
+        -:   18:
+        -:   19:};
+        -:   20:
+        -:   21:struct process{
+        -:   22:int pid,processtype,BurstTime,ArrivalTime,Priority,TimeQuantum,WaitingTime,TurnAroundTime,ComplitionTime,bt_remaining,StartTime,ResponseTime;
+        -:   23:};
+        -:   24:
+        -:   25:bool comparisonAT(struct process , struct process );
+        -:   26:bool comparisonPID(struct process, struct process);
+        -:   27:
+        -:   28:struct process* fcfs();
+        -:   29:struct process* priority();
+        -:   30:struct process* rr();
+        -:   31:struct process* sjf();
+        -:   32:
+        -:   33:/*
+        -:   34:void sighandler(int signum){
+        -:   35:
+        -:   36:}*/
+        -:   37:
+        -:   38:
+        -:   39:

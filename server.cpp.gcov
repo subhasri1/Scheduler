@@ -1,0 +1,173 @@
+        -:    0:Source:../src/server.cpp
+        -:    0:Graph:server.gcno
+        -:    0:Data:server.gcda
+        -:    0:Runs:1
+        -:    1:#include<iostream>
+        -:    2:#include<fstream>
+        -:    3:#include<sys/types.h>
+        -:    4:using namespace std;
+        -:    5:#include<sys/socket.h>
+        -:    6:#include<netinet/in.h>
+        -:    7:#include<unistd.h>
+        -:    8:#include<arpa/inet.h>
+        -:    9:#include<stdlib.h>
+        -:   10:#include<errno.h>
+        -:   11:#include<signal.h>
+        -:   12:#include "../inc/class.h"
+        -:   13:fstream fout;
+        -:   14:
+        -:   15:#define size 100
+        -:   16:
+    #####:   17:void sighandler(int signum){
+    #####:   18: fout<<"Termination signal received";
+    #####:   19: fout.close();
+    #####:   20: exit(1);
+        -:   21:}
+        -:   22:
+        1:   23:int main(){
+        2:   24:	fstream fout1;
+        1:   25:	fout1.open("../bin/server_log.txt",ios::out|ios::trunc);
+        1:   26:	fout1.clear();
+        -:   27:	
+        1:   28:	fout.open("../bin/server_log.txt",ios::app);
+        -:   29:	//Making server socket.
+        1:   30:	int serv_fd=socket(AF_INET,SOCK_STREAM,0);
+        1:   31:	signal(SIGINT,sighandler);
+        1:   32:	if(serv_fd == -1)
+    #####:   33:	{	fout<<"socket created error"<<endl;
+    #####:   34:		perror("Socket creation error");
+    #####:   35:		exit(1);
+        -:   36:	}
+        1:   37:	fout<<"socket generated"<<endl;
+        -:   38:	//Storing server info in a structure.
+        -:   39:	struct sockaddr_in sock_addr_serv;
+        1:   40:	sock_addr_serv.sin_family = AF_INET;
+        1:   41:	sock_addr_serv.sin_port = 9955;
+        1:   42:	sock_addr_serv.sin_addr.s_addr = inet_addr("127.0.0.1");
+        -:   43:
+        -:   44:	//Binding struct with server structure.
+        1:   45:	if(bind(serv_fd,(struct sockaddr *)&sock_addr_serv,sizeof(sock_addr_serv))==-1)
+        -:   46:	{	
+    #####:   47:		fout<<"Listning error"<<endl;
+    #####:   48:		perror("Bind error");
+    #####:   49:		exit(1);
+        -:   50:	}
+        1:   51:	fout<<"socket Binded successfully"<<endl;
+        -:   52:	
+        1:   53:	if(listen(serv_fd,5)==-1)
+    #####:   54:	{	fout<<"Listning error"<<endl;
+    #####:   55:		perror("listen error");
+    #####:   56:		exit(1);
+        -:   57:	}
+        1:   58:	fout<<"socket listning"<<endl;
+        1:   59:		cout<<"server watiing for client request"<<endl;
+        -:   60:		struct sockaddr_in sock_addr_cli;
+        1:   61:		socklen_t cli_len = sizeof(sock_addr_cli);	
+        1:   62:		int client_fd=accept(serv_fd,(struct sockaddr *)&sock_addr_cli,&cli_len);
+        1:   63:		if(client_fd==-1)
+    #####:   64:		{	fout<<"socket accept"<<endl;
+    #####:   65:			perror("accept error");
+    #####:   66:			exit(1);
+        -:   67:		}
+        1:   68:		fout<<"socket accept"<<endl;
+        -:   69://Applying a infinite loop to read data sent from server.
+        -:   70:while(1)
+        -:   71:{
+        -:   72:int n;
+        1:   73:read(client_fd,&n,sizeof(n));
+        -:   74:
+        1:   75:if(n!=0){
+        -:   76:
+    #####:   77:details d[n];
+    #####:   78:fstream file1;
+        -:   79://opening text file to store process info.
+        -:   80:
+    #####:   81:file1.open("../data/dt.txt",ios::app);
+        -:   82://reading every process data from client and storing it into a file.		
+    #####:   83:for(int i=0;i<n;i++){
+    #####:   84:read(client_fd,&d[i],sizeof(d[i]));
+        -:   85:
+    #####:   86:string data;
+    #####:   87:data+=to_string(d[i].ProcessType)+","+to_string(d[i].Pid)+","+to_string(d[i].ArrivalTime)+","+to_string(d[i].BurstTime)+","+to_string(d[i].Priority)+","+to_string(d[i].TimeQuantum);
+    #####:   88:cout<<data<<endl;
+        -:   89:
+        -:   90:
+    #####:   91:file1<<data<<endl;
+        -:   92:
+        -:   93:
+        -:   94:}
+    #####:   95:file1.close();
+        -:   96://calling fcfs function.
+    #####:   97:if(d[0].ProcessType==1){
+        -:   98:
+    #####:   99:struct process *p=fcfs();
+        -:  100:struct process q[size];
+        -:  101:
+    #####:  102:for(int i=0;i<n;i++){
+    #####:  103:q[i]=*p;
+        -:  104:
+    #####:  105:write(client_fd,&q[i],sizeof(q[i]));
+    #####:  106:p++;
+        -:  107:}
+        -:  108:
+        -:  109:	
+        -:  110:}
+        -:  111://calling priority function.
+    #####:  112:else if(d[0].ProcessType==2){
+        -:  113:
+    #####:  114:struct process *p=priority();
+        -:  115:struct process q[size];
+    #####:  116:for(int i=0;i<n;i++){
+    #####:  117:q[i]=*p;
+    #####:  118:write(client_fd,&q[i],sizeof(q[i]));
+    #####:  119:p++;
+        -:  120:}
+        -:  121:
+        -:  122:}
+        -:  123://calling round robin function.
+    #####:  124:else if(d[0].ProcessType==3){
+        -:  125:
+    #####:  126:struct process *p=rr();
+        -:  127:struct process q[size];
+        -:  128:
+    #####:  129:for(int i=0;i<n;i++){
+    #####:  130:q[i]=*p;
+        -:  131:
+    #####:  132:write(client_fd,&q[i],sizeof(q[i]));
+    #####:  133:p++;
+        -:  134:}
+        -:  135:
+        -:  136:}
+        -:  137://calling Shortest job first function.
+    #####:  138:else if(d[0].ProcessType==4){
+        -:  139:
+    #####:  140:struct process *p=sjf();
+        -:  141:struct process q[size];
+        -:  142:
+    #####:  143:for(int i=0;i<n;i++){
+    #####:  144:q[i]=*p;
+        -:  145:
+    #####:  146:write(client_fd,&q[i],sizeof(q[i]));
+    #####:  147:p++;
+        -:  148:}
+        -:  149:
+    #####:  150:}
+        -:  151:}
+        -:  152:else{
+        1:  153:break;
+        -:  154:} 
+        -:  155:
+    #####:  156:}
+        -:  157:
+        -:  158://closing socket.
+        1:  159:if(close(serv_fd)==-1){
+    #####:  160:	fout<<"socket closing error"<<endl;
+    #####:  161:	perror("socket close");
+    #####:  162:		exit(1);
+        -:  163:		}
+        1:  164:		fout<<"socket closed"<<endl;
+        -:  165:
+        1:  166:fout.close();
+        1:  167:		}
+        -:  168:
+        -:  169:

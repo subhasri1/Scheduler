@@ -1,3 +1,4 @@
+//Function to Implement First come first server algorithm.
 #include<iostream>
 #include<fstream>
 #include<sys/types.h>
