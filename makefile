@@ -2,17 +2,17 @@ BIN=../bin
 OBJ=../obj
 INC=../inc
 SRC=../src
-CC=g++
-OFLAG=-o
-CFLAG=-c
-WFLAG=-Wall -g
+CC= g++
+OFLAG= -o
+CFLAG= -c
+WFLAG= -Wall -g
 
 all: $(BIN)/serv $(BIN)/cli
 
-$(BIN)/serv: $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
+serv: $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
 	$(CC) $(OFLAG) $(WFLAG) $(BIN)/serv $(SRC)/server.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 
-$(BIN)/cli: $(SRC)/client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
+cli: $(SRC)/client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o $(OBJ)/priority.o 			$(OBJ)/sjf.o
 	$(CC) $(OFLAG) $(WFLAG) $(BIN)/cli $(SRC)/client.cpp $(OBJ)/fcfs.o $(OBJ)/rr.o 			$(OBJ)/priority.o $(OBJ)/sjf.o
 
 
